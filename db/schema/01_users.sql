@@ -10,6 +10,11 @@ CREATE TABLE users (
   password VARCHAR (255) NOT NULL
 );
 
+CREATE TABLE sellers {
+  id SERIAL PRIMARY KEY NOT NULL,
+  product
+}
+
 CREATE TABLE listings (
   id SERIAL PRIMARY KEY NOT NULL,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
@@ -28,3 +33,4 @@ CREATE TABLE favourite_items (
   time_created TIMESTAMP DEFAULT Now()
 );
 
+CREATE TABLE
