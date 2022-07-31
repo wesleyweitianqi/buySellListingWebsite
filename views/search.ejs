@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Home Page</title>
+  <title>Listings</title>
 
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -52,9 +52,48 @@
       </div>
     </div>
   </nav>
-  <h1>Have fun! 🥔</h1>
   <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+<h1>Filter your results:</h1>
+<form class="search_form" method="POST" action="/listings">
+  <div class="filter_form">
+    <label for="minimum_price">Enter a minimum price:</label>
+    <input
+      class="minimum_price_form"
+      type="number"
+      name="minimum_price"
+      placeholder="5000"
+    />
+    <label for="maximum_price">Enter a maximum price:</label>
+    <input
+      class="maximum_price_form"
+      type="number"
+      name="maximum_price"
+      placeholder="5000"
+    />
+    <label for="model">Enter a model type:</label>
+    <input
+      class="model_form"
+      type="text"
+      name="model"
+      placeholder="something model related"
+    />
+    <label for="make">Enter a make:</label>
+    <input
+      class="make_form"
+      type="text"
+      name="make"
+      placeholder="something make related"
+    />
+    <label for="year">Enter a year:</label>
+    <input
+      class="year_form"
+      type="number"
+      name="year"
+      placeholder="2020"
+    />
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
 </body>
-
 </html>
