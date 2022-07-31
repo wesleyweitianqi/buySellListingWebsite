@@ -9,3 +9,4 @@ VALUES ('David', 'david@braverman.com', '123'),
 ('Claire', 'claire@redfield.com', '678'),
 ('Ethan', 'ethan@winters.com', '901'),
 ('Abigail', 'abigail@wizard.com', '156');
+
