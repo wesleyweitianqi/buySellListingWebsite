@@ -16,9 +16,11 @@ module.exports = (db) => {
 
   router.post("/login", (req, res) => {
     const { email, password } = req.body;
+    console.log(req.body);
     db
       .query('SELECT * FROM users WHERE users.email = $1 AND users.password = $2;', [email, password])
       .then((result) => {
+        console.log(result.rows[0])
         if (result.rows[0].email === email && result.rows[0].password === password) {
           const users = result.rows[0];
           res.redirect('/');

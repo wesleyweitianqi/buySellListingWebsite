@@ -46,12 +46,12 @@ const user = require("./routes/user");
 app.use("/api/users", usersRoutes(db));
 app.use("/api/listings", listingsRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
-<<<<<<< HEAD
+
 app.use("/user", user(db));
 
-=======
+
 app.use("/", usersRoutes(db));
->>>>>>> master
+
 // Note: mount other resources here, using the same pattern above
 
 // Home page
@@ -62,29 +62,6 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-<<<<<<< HEAD
-=======
-app.get('/register', (req, res) => {
-  res.render('register');
-});
-
-app.get("/listings", (req, res) => {
-  res.render("listings");
-});
-
-app.get("/search", (req, res) => {
-  res.render("search");
-});
-
-app.get("/post", (req, res) => {
-  res.render('post');
-});
-
-app.post('/listings', (req, res) => {
-  res.redirect('/listings');
-});
-
->>>>>>> master
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
