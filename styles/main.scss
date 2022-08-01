@@ -26,4 +26,30 @@ body {
     flex-direction: row;
 
   }
+  .list-item {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    background: linear-gradient(to right, #00b09b, #96c93d);
+    min-height: 100vh;
+  }
+  .list-description {
+    font-size: 1.5em;
+    color: white;
+  }
+  .list-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .list-info-image {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px;
+    size: 200%;
+  } 
+  .list-image:hover {
+    box-shadow: 5px 5px white;
+  }
 }
