@@ -44,6 +44,7 @@ const widgetsRoutes = require("./routes/widgets");
 app.use("/api/users", usersRoutes(db));
 app.use("/api/listings", listingsRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
+app.use("/", usersRoutes(db));
 // Note: mount other resources here, using the same pattern above
 
 // Home page
@@ -54,12 +55,20 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+app.get('/register', (req, res) => {
+  res.render('register');
+});
+
 app.get("/listings", (req, res) => {
   res.render("listings");
 });
 
 app.get("/search", (req, res) => {
   res.render("search");
+});
+
+app.get("/post", (req, res) => {
+  res.render('post');
 });
 
 app.post('/listings', (req, res) => {
