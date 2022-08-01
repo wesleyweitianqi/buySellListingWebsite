@@ -11,7 +11,10 @@ const router  = express.Router();
 module.exports = (db) => {
 
   router.get("/login", (req, res) => {
-    res.render('login');
+    if(req.session.user_id) {
+      return res.redirect('urls')
+    }
+    res.render('login')
   })
 
   router.post("/login", (req, res) => {
@@ -21,10 +24,13 @@ module.exports = (db) => {
       .query('SELECT * FROM users WHERE users.email = $1 AND users.password = $2;', [email, password])
       .then((result) => {
         console.log(result.rows[0])
+        console.log('expectID:',result.rows[0].id)
         if (result.rows[0].email === email && result.rows[0].password === password) {
-          const users = result.rows[0];
-          res.redirect('/');
-          return result.rows[0];
+          if (bcrypt.compareSync(req.body.password, result.rows[0].password)) {
+            req.session.user_id = result.rows[0].id;
+            res.redirect('/');
+            return result.rows[0];
+          }
         }
       })
       .catch((err) => {
@@ -32,6 +38,14 @@ module.exports = (db) => {
         res.send(err.message);
       });
   });
+
+  router.get('/register', (req, res) => {
+    if(req.session.user_id) {
+      return res.redirect('urls')
+    }
+    res.render('register')
+  });
+
   return router;
 };
 
