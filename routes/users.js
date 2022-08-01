@@ -9,16 +9,25 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
-  router.get("/", (req, res) => {
-    db.query(`SELECT * FROM users;`)
-      .then(data => {
-        const users = data.rows;
-        res.json({ users });
+
+  router.get("/login", (req, res) => {
+    res.render('login');
+  })
+
+  router.post("/login", (req, res) => {
+    const { email, password } = req.body;
+    db
+      .query('SELECT * FROM users WHERE users.email = $1 AND users.password = $2;', [email, password])
+      .then((result) => {
+        if (result.rows[0].email === email && result.rows[0].password === password) {
+          const users = result.rows[0];
+          res.redirect('/');
+          return result.rows[0];
+        }
       })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
+      .catch((err) => {
+        console.log(err.message);
+        res.send(err.message);
       });
   });
   return router;
