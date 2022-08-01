@@ -11,6 +11,7 @@ const router  = express.Router();
 module.exports = (db) => {
 
   router.get("/login", (req, res) => {
+    console.log(req.session);
     res.render('login');
   })
 
@@ -19,12 +20,15 @@ module.exports = (db) => {
     db
       .query('SELECT * FROM users WHERE users.email = $1 AND users.password = $2;', [email, password])
       .then((result) => {
-        const users = result.rows[0];
-        res.json({ users });
-        return result.rows[0];
+        if (result.rows[0].email === email && result.rows[0].password === password) {
+          const users = result.rows[0];
+          res.redirect('/');
+          return result.rows[0];
+        }
       })
       .catch((err) => {
         console.log(err.message);
+        res.send(err.message);
       });
   });
   return router;
