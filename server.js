@@ -9,7 +9,7 @@ const app = express();
 const morgan = require("morgan");
 
 // PG database client/connection setup
-const { Pool } = require("pg");
+const { Pool, ClientBase } = require("pg");
 const dbParams = require("./lib/db.js");
 const db = new Pool(dbParams);
 db.connect();
@@ -38,12 +38,16 @@ app.use(express.static("public"));
 const usersRoutes = require("./routes/users");
 const listingsRoutes = require("./routes/listings");
 const widgetsRoutes = require("./routes/widgets");
+const user = require("./routes/user");
+
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/api/users", usersRoutes(db));
 app.use("/api/listings", listingsRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
+app.use("/user", user(db));
+
 // Note: mount other resources here, using the same pattern above
 
 // Home page
@@ -52,18 +56,6 @@ app.use("/api/widgets", widgetsRoutes(db));
 
 app.get("/", (req, res) => {
   res.render("index");
-});
-
-app.get("/listings", (req, res) => {
-  res.render("listings");
-});
-
-app.get("/search", (req, res) => {
-  res.render("search");
-});
-
-app.post('/listings', (req, res) => {
-  res.redirect('/listings');
 });
 
 app.listen(PORT, () => {
