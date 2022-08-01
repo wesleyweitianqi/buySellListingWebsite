@@ -20,7 +20,6 @@ module.exports = (db) => {
       .query('SELECT * FROM users WHERE users.email = $1 AND users.password = $2;', [email, password])
       .then((result) => {
         if (result.rows[0].email === email && result.rows[0].password === password) {
-          const users = result.rows[0];
           res.redirect('/');
           return result.rows[0];
         }
@@ -30,6 +29,27 @@ module.exports = (db) => {
         res.send(err.message);
       });
   });
+
+  router.get("/register", (req, res) => {
+    res.render('register');
+  })
+
+  router.post("/register", (req, res) => {
+    const { name, email, password } = req.body;
+    db
+      .query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3);', [name, email, password])
+      .then((result) => {
+        req.session.user_id = result.rows[0].id;
+        req.session.user = result.rows[0];
+        res.redirect('/');
+        return result.rows[0];
+      })
+      .catch((err) => {
+        console.log(err.message);
+        res.send(err.message);
+      });
+  });
+
   return router;
 };
 
