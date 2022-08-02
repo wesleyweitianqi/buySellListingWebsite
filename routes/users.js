@@ -61,8 +61,6 @@ module.exports = (db) => {
         res.render('listings');
       }
     }).catch(err => console.error(err));
-
-
   });
 
   router.get('/listings', (req, res) => {
