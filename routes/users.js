@@ -57,15 +57,18 @@ module.exports = (db) => {
           })
         })
       } else {
-        console.log('result:', result.rows);
-        return res.render('listings');
+        db.query(text,params).then(result => {
+          if (result.rows[0].email === email) {
+            return res.redirect('/login');
+          }
+        })
+        res.render('listings');
       }
     }).catch(err => console.error(err));
   });
 
   router.get('/listings', (req, res) => {
     if (req.session.user_id) {
-
     }
     res.render('listings');
   })
