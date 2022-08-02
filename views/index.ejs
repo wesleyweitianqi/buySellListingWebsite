@@ -16,21 +16,7 @@
 </head>
 
 <body>
-  <nav class="nav">
-    <a class="nav-link" href="/user/search">Search</a>
-    <a class="nav-link" href="/listings">Listings</a>
-    <a class="nav-link" href="/user/post">Create a Listing</a>
-    <!-- <form method="POST" action="/logout"> -->
-      <!-- <button type="submit" class="btn btn-primary"></button> -->
-    <!-- </form> -->
-    <% if (user_id) {%>
-      <label><%= username %></label>
-      <a class="nav-link" href="/logout">Logout</a>
-    <% } else { %>
-      <a class="nav-link" href="/login">Login</a>
-      <a class="nav-link" href="/register">Register</a>
-    <% } %>
-  </nav>
+  <%- include('partials/_nav') %>
 
   <div>
     <img src="https://cka-dash.s3.amazonaws.com/027-0818-AFR968/welcome1.jpg" class="img-fluid" alt="...">

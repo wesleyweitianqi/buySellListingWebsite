@@ -14,9 +14,9 @@ module.exports = (db) => {
   //visit login page
   router.get("/login", (req, res) => {
     if(req.session.user_id) {
-      return res.redirect('/listings');
+      return res.redirect('/');
     }
-    res.render('login')
+    res.render('login', {user_id : ''})
   });
   //post login page
   router.post("/login", (req, res) => {
@@ -27,7 +27,7 @@ module.exports = (db) => {
       }
       if (bcrypt.compareSync(password, result.rows[0].password)) {
         req.session.user_id = result.rows[0].id;
-        return res.redirect('/listings');
+        return res.redirect('/');
       } else {
         res.send('Password is not correct')
       }
@@ -43,7 +43,7 @@ module.exports = (db) => {
     // if (req.session.user_id) {
     //   return res.redirect('/listings');
     // }
-    res.render('register');
+    res.render('register', {user_id : ''});
   })
 
   router.post('/register', (req, res) => {
@@ -56,7 +56,7 @@ module.exports = (db) => {
         db.query('INSERT INTO users(name, email,password) VALUES($1,$2,$3)', [name, email, `${bcrypt.hashSync(password,10)}`]).then(() => {
           db.query(text, params).then(result => {
             req.session.user_id = result.rows[0].id;
-            return res.redirect('/listings');
+            return res.redirect('/');
           })
         })
       } else {

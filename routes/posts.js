@@ -6,7 +6,7 @@ module.exports = function() {
     if (err) {
       res.send(err);
     } else {
-      res.render('post');
+      res.render('post', {user_id : ''});
     }
   });
 

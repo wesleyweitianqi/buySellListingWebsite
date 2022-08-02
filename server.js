@@ -69,10 +69,10 @@ app.get("/", (req, res) => {
   if (req.session.user_id) {
     db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
       const templateval = {user_id : req.session.user_id, username : result.rows[0].name}
-      return res.redirect('/listings');
+      return res.render('/', templateval);
     }).catch(err => console.error(err));
   };
-  res.render('index', {user_id : req.session.user_id || ''});
+  res.render('index', {user_id :''});
 });
 
 app.listen(PORT, () => {
