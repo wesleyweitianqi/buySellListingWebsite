@@ -27,7 +27,7 @@ module.exports = (db) => {
       }
       if (bcrypt.compareSync(password, result.rows[0].password)) {
         req.session.user_id = result.rows[0].id;
-        return res.redirect('/listings');
+        return res.redirect('/');
       } else {
         res.send('Password is not correct')
       }
@@ -40,9 +40,6 @@ module.exports = (db) => {
   })
 
   router.get('/register', (req,res) => {
-    // if (req.session.user_id) {
-    //   return res.redirect('/listings');
-    // }
     res.render('register');
   })
 
@@ -52,13 +49,11 @@ module.exports = (db) => {
     const text ='SELECT * FROM users WHERE email = $1';
     const params = [email];
     db.query(text, params).then(result => {
-      // console.log(result.rows);
       if (result.rows.length === 0) {
         db.query('INSERT INTO users(name, email,password) VALUES($1,$2,$3)', [name, email, `${bcrypt.hashSync(password,10)}`]).then(() => {
           db.query(text, params).then(result => {
             req.session.user_id = result.rows[0].id;
-            // templateval = {user_id : req.session.user_id, username : result.rows[0].name}
-            return res.redirect('/listings');
+            return res.redirect('/');
           })
         })
       } else {
@@ -66,9 +61,7 @@ module.exports = (db) => {
           if (result.rows[0].email === email) {
             return res.redirect('/login');
           }
-        })
-        // const templateval = {user_id: req.session.user.id || '', username: req.session.user.name};
-        // res.render('listings', templateval);
+        });
       }
     }).catch(err => console.error(err));
   });
