@@ -58,22 +58,22 @@ app.use("/", usersRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
-// app.get("/listings", (req, res) => {
-//   const queryString = `
-//   SELECT *
-//   FROM listings
-//   `;
-//   return db.query(queryString)
-//   .then(data => {
-//     const templateVars = {
-//       listings: data.rows
-//     };
-//     return res.render("listings", templateVars);
-//   })
-//   .catch(err => {
-//     return console.log(err.stack);
-//   });
-// });
+app.get("/listings", (req, res) => {
+  const queryString = `
+  SELECT *
+  FROM listings
+  `;
+  return db.query(queryString)
+  .then(data => {
+    const templateVars = {
+      listings: data.rows
+    };
+    return res.render("listings", templateVars);
+  })
+  .catch(err => {
+    return console.log(err.stack);
+  });
+});
 
 app.get("/", (req, res) => {
   if (req.session.user_id) {
