@@ -24,15 +24,9 @@ module.exports = (db) => {
     db.query('SELECT * FROM users WHERE email = $1;',[email]).then(result => {
       if (bcrypt.compareSync(password, result.rows[0].password)) {
         req.session.user_id = result.rows[0].id;
-        console.log('password:',result.rows[0]);
         res.redirect('/listings');
       }
     }).catch(err => console.error(err));
-
-    // if(bcrypt.compareSync(req.body.password, rows['password'])) {
-    //   req.session.user_id = rows.password;
-    //   return res.redirect('/listings');
-    // }
   });
 
   router.get('/logout', (req,res) => {
@@ -49,7 +43,6 @@ module.exports = (db) => {
 
   router.post('/register', (req, res) => {
     const {name, email, password} = req.body;
-    console.log('------------------')
     console.log('req.body', name, email, password);
     const text ='SELECT * FROM users WHERE email = $1';
     const params = [email];
@@ -71,21 +64,11 @@ module.exports = (db) => {
 
   });
 
-    // const rows = await db.query('SELECT * FROM users WHERE users.email = $1 AND users.password = $2;',[email, password]);
-    // console.log(rows);
-    // if (req.body.email === "" || req.body.password === "") {
-    //   return res.sendStatus(400).end();
-    // };
-    // if (req.body.email === login[0].email) {
-    //   return res.send('This email was registered');
-    // }
-    // console.log(rows);
-    // req.session.user_id = rows.id;
-    // return res.redirect('/listing');
-
-
   router.get('/listings', (req, res) => {
-    res.render('listings');
-  })
+    if (req.session.user_id) {
+      res.render('listings');
+    }
+    res.redirect('/login')
+  });
   return router;
 };
