@@ -14,7 +14,7 @@ module.exports = (db) => {
   //visit login page
   router.get("/login", (req, res) => {
     if(req.session.user_id) {
-      return res.redirect('/listings')
+      return res.redirect('/listings');
     }
     res.render('login')
   });
@@ -24,6 +24,7 @@ module.exports = (db) => {
     db.query('SELECT * FROM users WHERE email = $1;',[email]).then(result => {
       if (bcrypt.compareSync(password, result.rows[0].password)) {
         req.session.user_id = result.rows[0].id;
+        req.session.user = result.rows[0];
         console.log('password:',result.rows[0]);
         res.redirect('/listings');
       }
@@ -62,15 +63,18 @@ module.exports = (db) => {
             return res.redirect('/login');
           }
         })
-        res.render('listings');
+        const templateval = {user_id: req.session.user.id, username: req.session.user.name};
+        res.render('listings', templateval);
       }
     }).catch(err => console.error(err));
   });
 
   router.get('/listings', (req, res) => {
+    const templateval = {user_id: req.session.user.id || '', username: req.session.user.name};
     if (req.session.user_id) {
+      res.render('listings',templateval);
     }
-    res.render('listings');
-  })
+    res.redirect('/login');
+  });
   return router;
 };
