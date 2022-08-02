@@ -8,14 +8,34 @@
 const express = require('express');
 const router  = express.Router();
 const bcrypt = require('bcryptjs')
+// const createListing = require('../public/scripts/app.js');
 
+<<<<<<< HEAD
+=======
+// const createListing = function(listingObj) {
+//   // const safeHTMLModel = `<p>${escape(listingObj.model)}`;
+//   const $listing = `
+//   <article class="listing">
+//     <img src="${listingObj.photo_url}>
+//     <section class="description">
+//       <span>${listingObj.model}</span>
+//       <span>$${listingObj.price / 100}</span>
+//       <span>${listingObj.is_sold}</span>
+//       <span>${listingObj.time_created}</span>
+//     </section>
+//   </article>
+//   `;
+//   return $listing;
+// };
+
+>>>>>>> 1b4b1f7e1318632a19782e7a6943f33f25f9c9ef
 module.exports = (db) => {
   //visit login page
   router.get("/login", (req, res) => {
     if(req.session.user_id) {
-      return res.redirect('/listings');
+      return res.redirect('/');
     }
-    res.render('login')
+    res.render('login', {user_id : '', id :''})
   });
   //post login page
   router.post("/login", (req, res) => {
@@ -39,7 +59,7 @@ module.exports = (db) => {
   })
 
   router.get('/register', (req,res) => {
-    res.render('register');
+    res.render('register', {user_id : '',id : ''});
   })
 
   router.post('/register', (req, res) => {
@@ -68,16 +88,57 @@ module.exports = (db) => {
   router.get('/listings', (req, res) => {
     if (req.session.user_id) {
       db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
-        const templateVars = {user_id : req.session.user_id, username : result.rows[0].name}
-        return res.render('listings',templateVars);
+        const templateVars = {user_id: req.session.user_id, id: result.rows[0].name, username: result.rows[0].name }
+        res.render('listings', templateVars);
       }).catch(err => console.error(err));
     } else {
       res.redirect('/login');
     }
+  });
+
+  router.get('/listings/api', (req, res) => {
+    if (req.session.user_id) {
+      db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
+        const templateVars = {user_id: req.session.user_id, id: result.rows[0].name, username: result.rows[0].name }
+        db.query('SELECT * FROM listings LIMIT 10;').then(result => {
+          const listings = result.rows;
+          res.send(listings);
+        }).catch(err => console.error(err));
+      }).catch(err => console.error(err));
+    } else {
+      res.redirect('/login');
+    }
+<<<<<<< HEAD
     db.query('SELECT * FROM listings;').then(result => {
       const listings = result.rows;
     }).catch(err => console.error(err));
+=======
+>>>>>>> 1b4b1f7e1318632a19782e7a6943f33f25f9c9ef
   });
+
+  router.get('/:user_id', (req,res) => {
+    // if (req.session.user_id) {
+    //   return res/redirect('/');
+    // }
+    // if (req.params.id !== req.session.user_id) {
+    //   return res.send('Page Not Found');
+    // }
+    if (req.session.user_id) {
+      db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
+        const templateVars = {user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].name};
+        res.render('post', templateVars);
+        return res.redirect('/');
+      }).catch(err => console.error(err));
+    } else {
+    res.render("post", {user_id: '', id: ''});
+    }
+  });
+
+  router.post('/:user_id', (req, res) => {
+    db.query('SELECT * FROM users where id = $1;', [res.session.user_id]).then(result => {
+      res.render('post', {user_id : req.session.user_id, id : result.rows[0].name, username: result.rows[0].name });
+    })
+  })
 
   return router;
 

@@ -1,0 +1,15 @@
+<nav class="nav">
+  <a class="nav-link" href="/user/search">Search</a>
+  <a class="nav-link" href="/listings">Listings</a>
+  <!-- <form method="POST" action="/logout"> -->
+    <!-- <button type="submit" class="btn btn-primary"></button> -->
+    <!-- </form> -->
+  <% if (user_id) { %>
+    <a class="nav-link" href="/<%= user_id %>">My Post</a>
+    <label><%= username %></label>
+    <a class="nav-link" href="/logout">Logout</a>
+  <% } else { %>
+    <a class="nav-link" href="/login">Login</a>
+    <a class="nav-link" href="/register">Register</a>
+  <% } %>
+</nav>
