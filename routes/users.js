@@ -10,25 +10,6 @@ const router  = express.Router();
 const bcrypt = require('bcryptjs')
 // const createListing = require('../public/scripts/app.js');
 
-<<<<<<< HEAD
-=======
-// const createListing = function(listingObj) {
-//   // const safeHTMLModel = `<p>${escape(listingObj.model)}`;
-//   const $listing = `
-//   <article class="listing">
-//     <img src="${listingObj.photo_url}>
-//     <section class="description">
-//       <span>${listingObj.model}</span>
-//       <span>$${listingObj.price / 100}</span>
-//       <span>${listingObj.is_sold}</span>
-//       <span>${listingObj.time_created}</span>
-//     </section>
-//   </article>
-//   `;
-//   return $listing;
-// };
-
->>>>>>> 1b4b1f7e1318632a19782e7a6943f33f25f9c9ef
 module.exports = (db) => {
   //visit login page
   router.get("/login", (req, res) => {
@@ -108,12 +89,9 @@ module.exports = (db) => {
     } else {
       res.redirect('/login');
     }
-<<<<<<< HEAD
     db.query('SELECT * FROM listings;').then(result => {
       const listings = result.rows;
     }).catch(err => console.error(err));
-=======
->>>>>>> 1b4b1f7e1318632a19782e7a6943f33f25f9c9ef
   });
 
   router.get('/:user_id', (req,res) => {
