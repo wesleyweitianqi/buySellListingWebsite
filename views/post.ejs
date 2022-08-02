@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
   <link rel="stylesheet" href="/styles/main.css" type="text/css" />
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/scripts/app.js"></script>
   <!-- CSS only -->
@@ -16,9 +16,8 @@
 </head>
 <body>
   <%- include('partials/_nav') %>
-
   <div class="form">
-    <form id="form">
+    <form id="form" method="POST">
       <input type="text" name="text1" value="Brand">
       <input type="text" name="text2" value="Model">
       <input type="text" name="text3" value="Price">

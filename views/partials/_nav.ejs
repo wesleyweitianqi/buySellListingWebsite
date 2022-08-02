@@ -4,8 +4,8 @@
   <!-- <form method="POST" action="/logout"> -->
     <!-- <button type="submit" class="btn btn-primary"></button> -->
     <!-- </form> -->
-  <% if (user_id) {%>
-    <a class="nav-link" href="/user/post">Create a Listing</a>
+  <% if (user_id) { %>
+    <a class="nav-link" href="/<%= user_id %>">My Post</a>
     <label><%= username %></label>
     <a class="nav-link" href="/logout">Logout</a>
   <% } else { %>
