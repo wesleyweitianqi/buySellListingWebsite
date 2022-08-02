@@ -83,7 +83,7 @@ app.get("/", (req, res) => {
       return res.redirect('/');
     }).catch(err => console.error(err));
   } else {
-  res.render("index", {user_id: ''});
+    res.render("index", {user_id: ''});
   }
 });
 
