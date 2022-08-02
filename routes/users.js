@@ -11,17 +11,22 @@ const router  = express.Router();
 module.exports = (db) => {
 
   router.get("/login", (req, res) => {
-    res.render('login');
+    const templateVars = { user: req.session.user_id }
+    if (templateVars.user) {
+      res.redirect('/');
+    }
+    res.render('login', templateVars);
   })
 
   router.post("/login", (req, res) => {
     const { email, password } = req.body;
-    console.log(req.body);
     db
       .query('SELECT * FROM users WHERE users.email = $1 AND users.password = $2;', [email, password])
       .then((result) => {
-        console.log(result.rows[0])
         if (result.rows[0].email === email && result.rows[0].password === password) {
+          req.session.user_id = result.rows[0].id;
+          req.session.user = result.rows[0];
+          console.log(req.session);
           res.redirect('/');
           return result.rows[0];
         }
@@ -39,10 +44,14 @@ module.exports = (db) => {
   router.post("/register", (req, res) => {
     const { name, email, password } = req.body;
     db
-      .query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3);', [name, email, password])
+      .query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *;', [name, email, password])
       .then((result) => {
-        req.session.user_id = result.rows[0].id;
+        if(!(result.rows[0].name || result.rows[0].email || result.rows[0].password)) {
+          res.send("Please enter a valid input.");
+        }
+        console.log(result.rows[0].id);
         req.session.user = result.rows[0];
+        req.session.user_id = result.rows[0].id;
         res.redirect('/');
         return result.rows[0];
       })
@@ -50,6 +59,13 @@ module.exports = (db) => {
         console.log(err.message);
         res.send(err.message);
       });
+  });
+
+  router.post("/logout", (req, res) => {
+    req.session.user = null;
+    req.session.user_id = null;
+    req.session = null;
+    res.redirect("/");
   });
 
   return router;
