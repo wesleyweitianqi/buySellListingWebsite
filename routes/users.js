@@ -52,12 +52,10 @@ module.exports = (db) => {
     const text ='SELECT * FROM users WHERE email = $1';
     const params = [email];
     db.query(text, params).then(result => {
-      // console.log(result.rows);
       if (result.rows.length === 0) {
         db.query('INSERT INTO users(name, email,password) VALUES($1,$2,$3)', [name, email, `${bcrypt.hashSync(password,10)}`]).then(() => {
           db.query(text, params).then(result => {
             req.session.user_id = result.rows[0].id;
-            // templateval = {user_id : req.session.user_id, username : result.rows[0].name}
             return res.redirect('/listings');
           })
         })
@@ -67,8 +65,6 @@ module.exports = (db) => {
             return res.redirect('/login');
           }
         })
-        // const templateval = {user_id: req.session.user.id || '', username: req.session.user.name};
-        // res.render('listings', templateval);
       }
     }).catch(err => console.error(err));
   });
