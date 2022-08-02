@@ -8,6 +8,33 @@
 // </form>
 // `
 
+// Remove unwanted code from being posted within a listing.
+const escape = function (str) {
+  let div = document.createElement("div");
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+};
+
+const createListing = function(listingObj) {
+  const safeHTMLName = `<p>${escape(listingObj.name)}`;
+  const safeHTMLDescription = `<p>${escape(listingObj.description)}`;
+  let $listing = `
+  <article class="listing">
+    <header>
+      <img src="${listingObj.photo_url}>
+      <section class="description">
+        <span>${safeHTMLName}</span>
+        <span>$${listingObj.price / 100}</span>
+        <span>${listingObj.is_sold}</span>
+        <span>${listingObj.time_created}</span>
+      </section>
+    </header>
+      ${safeHTMLDescription}
+  </article>
+  `;
+  return $listing;
+};
+
 $(document).ready(function() {
   // $.ajax({
   //   url: '/user/post',
@@ -40,4 +67,6 @@ $(document).ready(function() {
       }
     })
   })
-})
+});
+
+

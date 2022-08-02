@@ -39,23 +39,16 @@ app.use(
 
 app.use(express.static("public"));
 
-app.use(cookieSession({
-  name: 'session',
-  keys: ['wesley', 'david']
-}));
-
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const listingsRoutes = require("./routes/listings");
-const widgetsRoutes = require("./routes/widgets");
 const user = require("./routes/user");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/api/users", usersRoutes(db));
 app.use("/api/listings", listingsRoutes(db));
-app.use("/api/widgets", widgetsRoutes(db));
 app.use("/user", user(db));
 app.use("/", usersRoutes(db));
 
@@ -87,10 +80,10 @@ app.get("/", (req, res) => {
     db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
       const templateval = {user_id : req.session.user_id, username : result.rows[0].name}
       res.render('index', templateval);
-      return res.redirect('/listings');
+      return res.redirect('/');
     }).catch(err => console.error(err));
   } else {
-    res.render('index', {user_id :''});
+  res.render("index", {user_id: ''});
   }
 });
 
