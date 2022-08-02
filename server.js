@@ -66,7 +66,10 @@ app.use("/", usersRoutes(db));
 // Separate them into separate routes files (see above).
 
 app.get("/", (req, res) => {
-  res.render("index");
+  if (req.session.user_id) {
+    res.render("index", templateval);
+  }
+  res.render('index', templateval);
 });
 
 app.listen(PORT, () => {
