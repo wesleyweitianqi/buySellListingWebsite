@@ -22,11 +22,14 @@ module.exports = (db) => {
   router.post("/login", (req, res) => {
     const { email , password} = req.body;
     db.query('SELECT * FROM users WHERE email = $1;',[email]).then(result => {
+      if (result.rows.length === 0) {
+        return res.redirect('/register');
+      }
       if (bcrypt.compareSync(password, result.rows[0].password)) {
         req.session.user_id = result.rows[0].id;
-        req.session.user = result.rows[0];
-        console.log('password:',result.rows[0]);
-        res.redirect('/listings');
+        return res.redirect('/listings');
+      } else {
+        res.send('Password is not correct')
       }
     }).catch(err => console.error(err));
   });
@@ -37,9 +40,9 @@ module.exports = (db) => {
   })
 
   router.get('/register', (req,res) => {
-    if (req.session.user_id) {
-      return res.redirect('/listings');
-    }
+    // if (req.session.user_id) {
+    //   return res.redirect('/listings');
+    // }
     res.render('register');
   })
 
@@ -54,6 +57,7 @@ module.exports = (db) => {
         db.query('INSERT INTO users(name, email,password) VALUES($1,$2,$3)', [name, email, `${bcrypt.hashSync(password,10)}`]).then(() => {
           db.query(text, params).then(result => {
             req.session.user_id = result.rows[0].id;
+            // templateval = {user_id : req.session.user_id, username : result.rows[0].name}
             return res.redirect('/listings');
           })
         })
@@ -63,18 +67,21 @@ module.exports = (db) => {
             return res.redirect('/login');
           }
         })
-        const templateval = {user_id: req.session.user.id, username: req.session.user.name};
-        res.render('listings', templateval);
+        // const templateval = {user_id: req.session.user.id || '', username: req.session.user.name};
+        // res.render('listings', templateval);
       }
     }).catch(err => console.error(err));
   });
 
   router.get('/listings', (req, res) => {
-    const templateval = {user_id: req.session.user.id || '', username: req.session.user.name};
     if (req.session.user_id) {
-      res.render('listings',templateval);
+      db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
+        const templateval = {user_id : req.session.user_id, username : result.rows[0].name}
+        return res.render('listings',templateval);
+      }).catch(err => console.error(err));
+    } else {
+      res.redirect('/login');
     }
-    res.redirect('/login');
   });
   return router;
 };
