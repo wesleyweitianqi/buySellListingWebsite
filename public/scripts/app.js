@@ -16,24 +16,25 @@ const escape = function (str) {
 };
 
 const createListing = function(listingObj) {
-  const safeHTMLName = `<p>${escape(listingObj.name)}`;
-  const safeHTMLDescription = `<p>${escape(listingObj.description)}`;
+  // const safeHTMLModel = `<p>${escape(listingObj.model)}`;
   let $listing = `
   <article class="listing">
-    <header>
-      <img src="${listingObj.photo_url}>
-      <section class="description">
-        <span>${safeHTMLName}</span>
-        <span>$${listingObj.price / 100}</span>
-        <span>${listingObj.is_sold}</span>
-        <span>${listingObj.time_created}</span>
-      </section>
-    </header>
-      ${safeHTMLDescription}
+    <img src="${listingObj.photo_url}>
+    <section class="description">
+      <span>${listingObj.model}</span>
+      <span>$${listingObj.price / 100}</span>
+      <span>${listingObj.is_sold}</span>
+      <span>${listingObj.time_created}</span>
+    </section>
   </article>
   `;
   return $listing;
 };
+
+$(document).ready(function() {
+  const $listing = $('.listing_container');
+
+});
 
 $(document).ready(function() {
   // $.ajax({

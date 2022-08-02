@@ -9,7 +9,6 @@ const express = require('express');
 const router  = express.Router();
 const bcrypt = require('bcryptjs')
 
-
 module.exports = (db) => {
   //visit login page
   router.get("/login", (req, res) => {
@@ -76,8 +75,7 @@ module.exports = (db) => {
       res.redirect('/login');
     }
     db.query('SELECT * FROM listings;').then(result => {
-      let listingArr = result.rows;
-      console.log(listingArr);
+      const listings = result.rows;
     }).catch(err => console.error(err));
   });
 
