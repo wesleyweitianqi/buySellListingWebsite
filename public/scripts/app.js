@@ -23,7 +23,7 @@ const createListing = function(listingObj) {
       <span>${listingObj.model}</span>
       <span>$${listingObj.price / 100}</span>
       <span>${listingObj.is_sold}</span>
-      <span>${listingObj.time_created}</span>
+      <span>${listingObj.time_created.slice(0, -2)}</span>
     </section>
   </article>
   `;
