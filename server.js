@@ -65,37 +65,33 @@ app.use("/", usersRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
+// app.get("/listings", (req, res) => {
+//   const queryString = `
+//   SELECT *
+//   FROM listings
+//   `;
+//   return db.query(queryString)
+//   .then(data => {
+//     const templateVars = {
+//       listings: data.rows
+//     };
+//     return res.render("listings", templateVars);
+//   })
+//   .catch(err => {
+//     return console.log(err.stack);
+//   });
+// });
+
 app.get("/", (req, res) => {
-  res.render("index");
-});
-
-app.get("/listings", (req, res) => {
-  const queryString = `
-  SELECT *
-  FROM listings
-  `;
-  return db.query(queryString)
-  .then(data => {
-    const templateVars = {
-      listings: data.rows
-    };
-    return res.render("listings", templateVars);
-  })
-  .catch(err => {
-    return console.log(err.stack);
-  });
-});
-
-app.get("/search", (req, res) => {
-  res.render("search");
-});
-
-app.post('/listings', (req, res) => {
-  res.redirect('/listings');
   if (req.session.user_id) {
-    res.render("index", templateval);
+    db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
+      const templateval = {user_id : req.session.user_id, username : result.rows[0].name}
+      res.render('index', templateval);
+      return res.redirect('/listings');
+    }).catch(err => console.error(err));
+  } else {
+    res.render('index', {user_id :''});
   }
-  res.render('index', templateval);
 });
 
 app.listen(PORT, () => {
