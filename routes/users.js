@@ -7,52 +7,69 @@
 
 const express = require('express');
 const router  = express.Router();
+const bcrypt = require('bcryptjs')
+
 
 module.exports = (db) => {
-
+  //visit login page
   router.get("/login", (req, res) => {
-    res.render('login');
-  })
-
+    if(req.session.user_id) {
+      return res.redirect('/listings')
+    }
+    res.render('login')
+  });
+  //post login page
   router.post("/login", (req, res) => {
-    const { email, password } = req.body;
-    console.log(req.body);
-    db
-      .query('SELECT * FROM users WHERE users.email = $1 AND users.password = $2;', [email, password])
-      .then((result) => {
-        console.log(result.rows[0])
-        if (result.rows[0].email === email && result.rows[0].password === password) {
-          res.redirect('/');
-          return result.rows[0];
-        }
-      })
-      .catch((err) => {
-        console.log(err.message);
-        res.send(err.message);
-      });
+    const { email , password} = req.body;
+    db.query('SELECT * FROM users WHERE email = $1;',[email]).then(result => {
+      if (bcrypt.compareSync(password, result.rows[0].password)) {
+        req.session.user_id = result.rows[0].id;
+        console.log('password:',result.rows[0]);
+        res.redirect('/listings');
+      }
+    }).catch(err => console.error(err));
   });
 
-  router.get("/register", (req, res) => {
+  router.get('/logout', (req,res) => {
+    req.session = null;
+    res.redirect('/login');
+  })
+
+  router.get('/register', (req,res) => {
+    if (req.session.user_id) {
+      return res.redirect('/listings');
+    }
     res.render('register');
   })
 
-  router.post("/register", (req, res) => {
-    const { name, email, password } = req.body;
-    db
-      .query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3);', [name, email, password])
-      .then((result) => {
-        req.session.user_id = result.rows[0].id;
-        req.session.user = result.rows[0];
-        res.redirect('/');
-        return result.rows[0];
-      })
-      .catch((err) => {
-        console.log(err.message);
-        res.send(err.message);
-      });
+  router.post('/register', (req, res) => {
+    const {name, email, password} = req.body;
+    console.log('req.body', name, email, password);
+    const text ='SELECT * FROM users WHERE email = $1';
+    const params = [email];
+    db.query(text, params).then(result => {
+      // console.log(result.rows);
+      if (result.rows.length === 0) {
+        db.query('INSERT INTO users(name, email,password) VALUES($1,$2,$3)', [name, email, `${bcrypt.hashSync(password,10)}`]).then(() => {
+          db.query(text, params).then(result => {
+            req.session.user_id = result.rows[0].id;
+            return res.redirect('/listings');
+          })
+        })
+      } else {
+        console.log('result:', result.rows);
+        res.render('listings');
+      }
+    }).catch(err => console.error(err));
+
+
   });
 
+  router.get('/listings', (req, res) => {
+    if (req.session.user_id) {
+
+    }
+    res.render('listings');
+  })
   return router;
 };
-
-
