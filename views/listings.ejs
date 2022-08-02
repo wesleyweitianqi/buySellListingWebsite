@@ -57,26 +57,26 @@
 <h1>Listings:</h1>
 
 <!-- list group item -->
-<li class="list-item">
-  <!-- Custom content-->
-  <div class="list-info-image">
-    <div class="list-info">
-      <h2 class="list-head">2018 Audi A3 2.0</h2>
-      <p class="list-description">2018 Audi A3 2.0 Technik | PWR SUNROOF | NAV | 23 K | HTD SEATS</p>
-      <h3 class="list-price"> $26000 </h3>
-    </div><img src="https://tdrpmimages.azureedge.net/photos/import/202207/0521/4804/5bd682ef-7896-4ed4-976b-90f022273664.jpg-1024x786" alt="Generic placeholder image" width="200" class="list-image">
-  </div>
-  <!-- End -->
+<% for(let i = 0; i < listings.length; i++){ %>
+    <li class="list-item">
+      <!-- Custom content-->
+      <div class="list-info-image">
+        <div class="list-info">
+          <h2 class="list-head"><%= listings[i].brand %> <%= listings[i].model %> <%= listings[i].year %></h2>
+          <p class="list-description"><%= listings[i].description %></p>
+          <h3 class="list-price"><%= listings[i].price %> </h3>
+        </div>
+        <img src= "<%= listings[i].photo_url %>" class="list-image">
+      </div>
+      <!-- End -->
     <!-- Custom content-->
-    <div class="list-info-image">
-      <div class="list-info">
-        <h2 class="list-head">2012 Audi A4 2.0T</h2>
-        <p class="list-description">2012 Audi A4 2.0T Quattro ***Sold As-Is Seen & Equipped</p>
-        <h3 class="list-price"> $9900 </h3>
-      </div><img src="https://tdrpmimages.azureedge.net/photos/import/202206/2807/2025/0418ece4-ec86-4e81-bbe6-5e205935c569.jpg-1024x786" alt="Generic placeholder image" width="200" class="list-image">
-    </div>
     <!-- End -->
 </li>
+    <% } %>
+      <!-- Custom content-->
+       <!-- End -->
+    <!-- Custom content-->
+    <!-- End -->
 <!-- End -->
 </body>
 </html>

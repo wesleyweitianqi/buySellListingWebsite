@@ -55,7 +55,20 @@ app.get("/", (req, res) => {
 });
 
 app.get("/listings", (req, res) => {
-  res.render("listings");
+  const queryString = `
+  SELECT *
+  FROM listings
+  `;
+  return db.query(queryString)
+  .then(data => {
+    const templateVars = {
+      listings: data.rows
+    };
+    return res.render("listings", templateVars);
+  })
+  .catch(err => {
+    return console.log(err.stack);
+  });
 });
 
 app.get("/search", (req, res) => {
