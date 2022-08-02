@@ -58,7 +58,7 @@ module.exports = (db) => {
         })
       } else {
         console.log('result:', result.rows);
-        res.render('listings');
+        return res.render('listings');
       }
     }).catch(err => console.error(err));
   });
