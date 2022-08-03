@@ -1,0 +1,40 @@
+.post_form {
+  width: 70%;
+
+  #post_form {
+    display: flex;
+    flex-direction: column;
+
+    .brand_text {
+      margin-top: 1em;
+    }
+
+    .model_text {
+      margin-top: 1em;
+    }
+
+    .year_text {
+      margin-top: 1em;
+    }
+
+    .description_text {
+      margin-top: 1em;
+    }
+
+    textarea[name=Description] {
+      resize: none;
+    }
+
+    .price_text {
+      margin-top: 1em;
+    }
+
+    .photo_url_text {
+      margin-top: 1em;
+    }
+
+    .button {
+      margin-top: 1em;
+    }
+  }
+}

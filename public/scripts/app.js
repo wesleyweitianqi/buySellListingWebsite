@@ -8,14 +8,13 @@ const escape = function (str) {
 
 const createListing = function(listingObj) {
   const $listing = `
-  <article class="listing">
+  <article class="listing card">
     <img class="listing_photo" src="${listingObj.photo_url}>
-    <section class="description">
-      <div>
-        <span class="listing_text">${listingObj.brand}</span>
-        <span class="listing_text">${listingObj.model}</span>
-        <span class="listing_text">$${listingObj.price / 100}</span>
-        <span class="listing_text">${listingObj.is_sold}</span>
+    <section>
+      <div class="description">
+        <span class="listing_text">Brand: ${listingObj.brand}</span>
+        <span class="listing_text">Model: ${listingObj.model}</span>
+        <span class="listing_text">Price: $${listingObj.price / 100}</span>
       <div>
     </section>
   </article>

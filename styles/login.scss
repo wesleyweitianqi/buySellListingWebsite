@@ -1,0 +1,16 @@
+#sign_in_form {
+  display: flex;
+  flex-direction: column;
+
+  .email_form {
+    margin-top: 1em;
+  }
+
+  .password_form {
+    margin-top: 1em;
+  }
+
+  .login_button {
+    margin-top: 1em;
+  }
+}

@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
   <link rel="stylesheet" href="/styles/main.css" type="text/css" />
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/post.css" type="text/css"/>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/scripts/app.js"></script>
@@ -16,15 +18,46 @@
 </head>
 <body>
   <%- include('partials/_nav') %>
-  <div class="form">
-    <form id="form" method="GET" action="/<%= user_id %>">
-      <input type="text" name="Brand" placeholder="Brand">
-      <input type="text" name="Model" placeholder="Model">
-      <input type="text" name="Year" placeholder="YYYY">
-      <textarea type="text" name="Description" placeholder="Enter a Description"></textarea>
-      <input type="number" name="Price" placeholder="$25000">
-      <input type="file" name="url" accept="image/png, image/jpg">
-      <button type="submit" id="post-form">Submit</button>
+  <h1>Make a Listing for your Vehicle:</h1>
+  <div class="post_form">
+    <form id="post_form" method="GET" action="/<%= user_id %>">
+      <label class="brand_text" for="Brand">Car Brand:</label>
+      <input
+        type="text"
+        name="Brand"
+        placeholder="Brand"
+      />
+      <label class="model_text" for="Model">Car Model:</label>
+      <input
+        type="text"
+        name="Model"
+        placeholder="Model"
+      />
+      <label class="year_text" for="Year">Year Manufactured:</label>
+      <input
+        type="text"
+        name="Year"
+        placeholder="YYYY"
+      />
+      <label class="description_text" for="Description">Enter a Brief Description of your vehicle:</label>
+      <textarea
+        type="text"
+        name="Description"
+        placeholder="Enter a Description"
+        resize="none"></textarea>
+      <label class="price_text" for="Price">Enter a Listing Price:</label>
+      <input
+        type="number"
+        name="Price"
+        placeholder="$25000"
+      />
+      <label class="photo_url_text" for="url">Please upload a picture of your vehicle:</label>
+      <input
+        type="file"
+        name="url"
+        accept="image/png, image/jpg"
+      />
+      <button class="button btn btn-primary" type="submit" id="post-form">Submit</button>
     </form>
   </div>
   <div class="post-container">

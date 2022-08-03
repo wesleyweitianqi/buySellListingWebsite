@@ -1,0 +1,20 @@
+#register_form {
+  display: flex;
+  flex-direction: column;
+
+  .name_form {
+    margin-top: 1em;
+  }
+
+  .email_form {
+    margin-top: 1em;
+  }
+
+  .password_form {
+    margin-top: 1em;
+  }
+
+  .register_button {
+    margin-top: 1em;
+  }
+}

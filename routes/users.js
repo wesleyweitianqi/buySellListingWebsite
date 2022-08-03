@@ -96,11 +96,7 @@ module.exports = (db) => {
     if (req.session.user_id) {
       db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
         const templateVars = {user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].name };
-        // if (req.session.user_id !== req.params.id) {
-          // return res.redirect('/login');
-        // } else {
-          res.render('post', templateVars);
-        // }
+        res.render('post', templateVars);
       }).catch(err => console.error(err));
     } else {
     res.render("post", {user_id: '', id: ''});
@@ -110,7 +106,6 @@ module.exports = (db) => {
   router.post('/:user_id/api', (req, res) => {
     db.query('SELECT * FROM users where id = $1;', [req.session.user_id]).then(result => {
       // res.render('post', {user_id: req.session.user_id, id: result.rows[0].name, username: result.rows[0].name });
-      console.log(req.body);
       const text = "INSERT INTO listings (user_id, brand, model, year, description, price, is_sold, photo_url) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
       const params = [req.session.user_id, req.body.Brand, req.body.Model, req.body.Year, req.body.Description, req.body.Price, false, req.body.url];
       db.query(text, params).then((result) => {

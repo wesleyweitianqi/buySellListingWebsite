@@ -1,9 +1,6 @@
 <nav class="nav">
   <a class="nav-link" href="/user/search">Search</a>
   <a class="nav-link" href="/listings">Listings</a>
-  <!-- <form method="POST" action="/logout"> -->
-    <!-- <button type="submit" class="btn btn-primary"></button> -->
-    <!-- </form> -->
   <% if (user_id) { %>
     <a class="nav-link" href="/<%= user_id %>">My Post</a>
     <label><%= username %></label>
