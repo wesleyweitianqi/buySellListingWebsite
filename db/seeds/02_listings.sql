@@ -1,5 +1,5 @@
-INSERT INTO listings(user_id, brand, model, year, description, price, is_sold, photo_url)
-  VALUES(1, 'audi', 'A3', 2018, '2018 Audi A3 2.0 Technik | PWR SUNROOF | NAV | 23 K | HTD SEATS', 26000, false, 'https://tdrpmimages.azureedge.net/photos/import/202207/0521/4804/5bd682ef-7896-4ed4-976b-90f022273664.jpg-1024x786'),
+INSERT INTO listings (user_id, brand, model, year, description, price, is_sold, photo_url)
+  VALUES (1, 'audi', 'A3', 2018, '2018 Audi A3 2.0 Technik | PWR SUNROOF | NAV | 23 K | HTD SEATS', 26000, false, 'https://tdrpmimages.azureedge.net/photos/import/202207/0521/4804/5bd682ef-7896-4ed4-976b-90f022273664.jpg-1024x786'),
          (2, 'audi', 'A4', 2012, '2012 Audi A4 2.0T Quattro ***Sold As-Is Seen & Equipped***', 9900, false,'https://tdrpmimages.azureedge.net/photos/import/202206/2807/2025/0418ece4-ec86-4e81-bbe6-5e205935c569.jpg-1024x786'),
          (3, 'audi', 'A4', 2016, '2016 Audi A4 Technik Allroad AWD Navigation/Sunroof/Camera', 18900, false,'https://tdrpmimages.azureedge.net/photos/import/202111/2602/5635/b39bedf5-bce8-44d6-a5c7-33e2c89f5ea0.jpg-1024x786'),
          (4, 'audi', 'A4', 2017, '2017 Audi A4 Progressiv | AWD | Leather | Camera | Bluetooth', 19988, false,'https://tdrpmimages.azureedge.net/photos/202205-2521-2138/5624fc14-7906-4a67-ad8b-4a074d3a6dc4.jpg-1024x786'),

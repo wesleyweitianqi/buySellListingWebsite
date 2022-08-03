@@ -11,6 +11,8 @@ const bcrypt = require('bcryptjs')
 // const createListing = require('../public/scripts/app.js');
 
 module.exports = (db) => {
+
+
   //visit login page
   router.get("/login", (req, res) => {
     if(req.session.user_id) {
@@ -45,12 +47,11 @@ module.exports = (db) => {
 
   router.post('/register', (req, res) => {
     const {name, email, password} = req.body;
-    console.log('req.body', name, email, password);
     const text ='SELECT * FROM users WHERE email = $1';
     const params = [email];
     db.query(text, params).then(result => {
       if (result.rows.length === 0) {
-        db.query('INSERT INTO users(name, email,password) VALUES($1,$2,$3)', [name, email, `${bcrypt.hashSync(password,10)}`]).then(() => {
+        db.query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3)', [name, email, `${bcrypt.hashSync(password,10)}`]).then(() => {
           db.query(text, params).then(result => {
             req.session.user_id = result.rows[0].id;
             return res.redirect('/');
@@ -81,7 +82,7 @@ module.exports = (db) => {
     if (req.session.user_id) {
       db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
         const templateVars = {user_id: req.session.user_id, id: result.rows[0].name, username: result.rows[0].name }
-        db.query('SELECT * FROM listings LIMIT 10;').then(result => {
+        db.query('SELECT * FROM listings ORDER BY time_created DESC LIMIT 10;').then(result => {
           const listings = result.rows;
           res.send(listings);
         }).catch(err => console.error(err));
@@ -89,31 +90,34 @@ module.exports = (db) => {
     } else {
       res.redirect('/login');
     }
-    db.query('SELECT * FROM listings;').then(result => {
-      const listings = result.rows;
-    }).catch(err => console.error(err));
   });
 
-  router.get('/:user_id', (req,res) => {
+  router.get('/:user_id', (req, res) => {
     if (req.session.user_id) {
       db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
-        const templateVars = {user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].name};
-        if (req.session.user_id !== req.params.id) {
-          return res.redirect('/login');
-        } else {
+        const templateVars = {user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].name };
+        // if (req.session.user_id !== req.params.id) {
+          // return res.redirect('/login');
+        // } else {
           res.render('post', templateVars);
-        }
+        // }
       }).catch(err => console.error(err));
     } else {
     res.render("post", {user_id: '', id: ''});
     }
   });
 
-  router.post('/:user_id', (req, res) => {
+  router.post('/:user_id/api', (req, res) => {
     db.query('SELECT * FROM users where id = $1;', [req.session.user_id]).then(result => {
-      res.render('post', {user_id: req.session.user_id, id: result.rows[0].name, username: result.rows[0].name });
-    })
-  })
+      // res.render('post', {user_id: req.session.user_id, id: result.rows[0].name, username: result.rows[0].name });
+      console.log(req.body);
+      const text = "INSERT INTO listings (user_id, brand, model, year, description, price, is_sold, photo_url) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
+      const params = [req.session.user_id, req.body.Brand, req.body.Model, req.body.Year, req.body.Description, req.body.Price, false, req.body.url];
+      db.query(text, params).then((result) => {
+        res.send(result.rows);
+      });
+    });
+  });
 
   return router;
 

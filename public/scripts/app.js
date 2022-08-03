@@ -12,10 +12,10 @@ const createListing = function(listingObj) {
     <img class="listing_photo" src="${listingObj.photo_url}>
     <section class="description">
       <div>
+        <span class="listing_text">${listingObj.brand}</span>
         <span class="listing_text">${listingObj.model}</span>
         <span class="listing_text">$${listingObj.price / 100}</span>
         <span class="listing_text">${listingObj.is_sold}</span>
-        <span class="listing_text">${listingObj.time_created.slice(0, -2)}</span>
       <div>
     </section>
   </article>
@@ -23,16 +23,43 @@ const createListing = function(listingObj) {
   return $listing;
 };
 
+const appendListing = function(listingArray) {
+  for (let listing of listingArray) {
+    $('.listing_container').append(createListing(listing));
+  }
+};
+
+const postlisting = function(listingArray) {
+  for (let listing of listingArray) {
+    $('.post-container').append(createListing(listing));
+  }
+};
+
 $(document).ready(function() {
   $.ajax({
     url:'/listings/api',
     method:'GET',
     success: function(data) {
-      for (let i of data) {
-        $('.listing_container').append(createListing(i));
-      }
+      appendListing(data);
     }
-  })
+  });
+ const postListing = $('.post-container');
+ const inputArray = postListing.serializeArray();
+ postListing.submit((event) => {
+  event.preventDefault();
+    $.ajax({
+      url: '/:user_id',
+      method: 'post',
+      data: inputArray,
+      success: function(data) {
+        console.log(data);
+        $.get('/:user_id', function() {
+          const $new = $('<h1>ok</h>')
+          $('.post-container').append($new);
+        })
+      }
+    });
+  });
 });
 //   // $.ajax({
 //   //   url: '/user/post',
