@@ -43,30 +43,19 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const listingsRoutes = require("./routes/listings");
+const frontendRoutes = require("./routes/frontend");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/api/users", usersRoutes(db));
 app.use("/api/listings", listingsRoutes(db));
-app.use("/", usersRoutes(db));
+app.use("/", frontendRoutes(db));
 
 // Note: mount other resources here, using the same pattern above
 
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
-
-app.get("/", (req, res) => {
-  if (req.session.user_id) {
-    db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
-      const templateVars = {user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].name};
-      res.render('index', templateVars);
-      return res.redirect('/');
-    }).catch(err => console.error(err));
-  } else {
-    res.render("index", {user_id: '', id: ''});
-  }
-});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

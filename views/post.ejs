@@ -20,7 +20,7 @@
   <%- include('partials/_nav') %>
   <h1>Make a Listing for your Vehicle:</h1>
   <div class="post_form">
-    <form id="post_form" method="GET" action="/<%= user_id %>">
+    <form id="post_form">
       <label class="brand_text" for="Brand">Car Brand:</label>
       <input
         type="text"
@@ -53,9 +53,8 @@
       />
       <label class="photo_url_text" for="url">Please upload a picture of your vehicle:</label>
       <input
-        type="file"
-        name="url"
-        accept="image/png, image/jpg"
+        type="text"
+        name="photo_url"
       />
       <button class="button btn btn-primary" type="submit" id="post-form">Submit</button>
     </form>
