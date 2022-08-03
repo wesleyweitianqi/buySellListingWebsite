@@ -17,13 +17,13 @@
 <body>
   <%- include('partials/_nav') %>
   <div class="form">
-    <form id="form" method="GET" action="/<%= user_id %>">
-      <input type="text" name="Brand" placeholder="Brand">
-      <input type="text" name="Model" placeholder="Model">
-      <input type="text" name="Year" placeholder="YYYY">
-      <textarea type="text" name="Description" placeholder="Enter a Description"></textarea>
-      <input type="number" name="Price" placeholder="$25000">
-      <input type="file" name="url" accept="image/png, image/jpg">
+    <form id="form">
+      <input type="text" name="brand" placeholder="Brand">
+      <input type="text" name="model" placeholder="Model">
+      <input type="text" name="year" placeholder="YYYY">
+      <textarea type="text" name="description" placeholder="Enter a Description"></textarea>
+      <input type="number" name="price" placeholder="$25000">
+      <input type="text" name="photo_url">
       <button type="submit" id="post-form">Submit</button>
     </form>
   </div>
