@@ -1,12 +1,4 @@
 // Client facing scripts here
-// const postform = `
-// <form id="form">
-//   <input type="text" name="text1" value="Brand">
-//   <input type="text" name="text2" value="Model">
-//   <input type="text" name="text2" value="Price">
-//   <button type="submit" id="post-form">Submit</button>
-// </form>
-// `
 
 const escape = function (str) {
   let div = document.createElement("div");
@@ -15,15 +7,16 @@ const escape = function (str) {
 };
 
 const createListing = function(listingObj) {
-  // const safeHTMLModel = `<p>${escape(listingObj.model)}`;
   const $listing = `
   <article class="listing">
-    <img src="${listingObj.photo_url}>
+    <img class="listing_photo" src="${listingObj.photo_url}>
     <section class="description">
-      <span>${listingObj.model}</span>
-      <span>$${listingObj.price / 100}</span>
-      <span>${listingObj.is_sold}</span>
-      <span>${listingObj.time_created.slice(0, -2)}</span>
+      <div>
+        <span class="listing_text">${listingObj.model}</span>
+        <span class="listing_text">$${listingObj.price / 100}</span>
+        <span class="listing_text">${listingObj.is_sold}</span>
+        <span class="listing_text">${listingObj.time_created.slice(0, -2)}</span>
+      <div>
     </section>
   </article>
   `;

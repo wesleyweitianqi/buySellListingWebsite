@@ -98,8 +98,11 @@ module.exports = (db) => {
     if (req.session.user_id) {
       db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
         const templateVars = {user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].name};
-        res.render('post', templateVars);
-        return res.redirect('/');
+        if (req.session.user_id !== req.params.id) {
+          return res.redirect('/login');
+        } else {
+          res.render('post', templateVars);
+        }
       }).catch(err => console.error(err));
     } else {
     res.render("post", {user_id: '', id: ''});
@@ -107,8 +110,8 @@ module.exports = (db) => {
   });
 
   router.post('/:user_id', (req, res) => {
-    db.query('SELECT * FROM users where id = $1;', [res.session.user_id]).then(result => {
-      res.render('post', {user_id : req.session.user_id, id : result.rows[0].name, username: result.rows[0].name });
+    db.query('SELECT * FROM users where id = $1;', [req.session.user_id]).then(result => {
+      res.render('post', {user_id: req.session.user_id, id: result.rows[0].name, username: result.rows[0].name });
     })
   })
 
