@@ -1,14 +1,5 @@
 // Client facing scripts here
-// const postform = `
-// <form id="form">
-//   <input type="text" name="text1" value="Brand">
-//   <input type="text" name="text2" value="Model">
-//   <input type="text" name="text2" value="Price">
-//   <button type="submit" id="post-form">Submit</button>
-// </form>
-// `
 
-// Remove unwanted code from being posted within a listing.
 const escape = function (str) {
   let div = document.createElement("div");
   div.appendChild(document.createTextNode(str));
@@ -16,57 +7,82 @@ const escape = function (str) {
 };
 
 const createListing = function(listingObj) {
-  const safeHTMLName = `<p>${escape(listingObj.name)}`;
-  const safeHTMLDescription = `<p>${escape(listingObj.description)}`;
-  let $listing = `
+  const $listing = `
   <article class="listing">
-    <header>
-      <img src="${listingObj.photo_url}>
-      <section class="description">
-        <span>${safeHTMLName}</span>
-        <span>$${listingObj.price / 100}</span>
-        <span>${listingObj.is_sold}</span>
-        <span>${listingObj.time_created}</span>
-      </section>
-    </header>
-      ${safeHTMLDescription}
+    <img class="listing_photo" src="${listingObj.photo_url}">
+    <section class="description">
+      <div>
+        <span class="listing_text">${escape(listingObj.brand.toUpperCase())}</span>
+        <span class="listing_text">${escape(listingObj.model)}</span>
+        <div class="listing_text">$${listingObj.price.toLocaleString('en-US')}</div>
+        <span class= ${listingObj.is_sold ? "listing_text_sale": "listing_text"}>${listingObj.is_sold ? "on sale":"sold"}</span>
+      <div>
+    </section>
   </article>
   `;
   return $listing;
 };
 
-$(document).ready(function() {
-  // $.ajax({
-  //   url: '/user/post',
-  //   method: 'GET',
-  //   success: function() {
-  //     $('.form').append(postform);
-  //   }
-  // })
-  const $postform = $('#form');
-  console.log($postform);
-  $postform.on('submit', function(event) {
-    event.preventDefault();
-    const input = $(this).serializeArray();
-    console.log(input);
-    $.ajax({
-      url: '/user/post',
-      method:'POST',
-      data: input,
-      success: function() {
+const appendListing = function(listingArray) {
+  for (let listing of listingArray) {
+    $('.listing_container').append(createListing(listing));
+  }
+};
 
-        $.ajax({
-          url: '/user/post',
-          method:'GET',
-          data:'json',
-          success: function(data) {
-            console.log('post:',data);
-            $('.post-container').append(data);
-          }
+const postListing = function(listingArray) {
+  for (let listing of listingArray) {
+    $('.post-container').prepend(createListing(listing));
+  }
+};
+
+const othersListing = function(listingArray) {
+  for (let listing of listingArray) {
+    $('.others_container').prepend(createListing(listing));
+  }
+};
+
+$(document).ready(function() {
+  $.ajax({
+    url:'/api/listings',
+    method:'GET',
+    success: function(data) {
+      appendListing(data);
+    }
+  });
+
+  $.ajax({
+    url:'/api/listings/me',
+    method:'GET',
+    success: function(data) {
+      postListing(data);
+    }
+  });
+
+
+  $.ajax({
+    url:`/api/listings/others/${$('#other_user_id').text()}`,
+    method:'GET',
+    success: function(data) {
+      othersListing(data);
+    }
+  });
+
+
+ $('#form').submit((event) => {
+  event.preventDefault();
+  const formdata = {};
+  $("#form").serializeArray().map(function(x){formdata[x.name] = x.value;});
+  console.log(formdata);
+    $.ajax({
+      url: '/api/listings',
+      method: 'POST',
+      data:formdata,
+      success: function() {
+        $.get('/api/listings/me', function(data) {
+          $('.post-container').prepend(createListing(data[0]));
         })
       }
-    })
-  })
+    });
+  });
 });
-
 

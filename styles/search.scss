@@ -1,0 +1,29 @@
+#search_form {
+  display: flex;
+  flex-direction: column;
+
+  .price_form {
+    display: flex;
+    flex-direction: row;
+
+    .minimum_price {
+      margin-top: 1em;
+    }
+
+    .maximum_price {
+      margin-top: 1em;
+    }
+  }
+
+  .brand_form {
+    margin: 1em;
+  }
+
+  .model_form {
+    margin: 1em;
+  }
+
+  .year_form {
+    margin: 1em;
+  }
+}
