@@ -35,9 +35,15 @@ module.exports = (db) => {
   //create favourite API
   router.get('/favourite', (req, res) => {
     if (req.session.user_id) {
-      db.query('SELECT * FROM listings JOIN favourite_items ON listings.user_id = favourite_items.user_id where favourite_items.user_id = $1', [req.session.user_id]).then(result => {
-        return res.send(result.rows);
-      }).catch(err => console.error(err));
+      db.query('SELECT * FROM favourite_items WHERE user_id = $1', [req.session.user_id]).then(result => {
+        if (result.rows.length === 0) {
+          db.query('INSERT INTO favourite_items(user_id, listing_id) VALUES($1, $2);', [req.session.user_id, req.body.listing_id])
+          .then(result => res.send(result.rows)).catch(err => console.error(err));
+        } else {
+          db.query('DELETE FROM favourite_items WHERE user_id = $1')
+        }
+      })
+
     }
   })
 
