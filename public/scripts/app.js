@@ -6,7 +6,7 @@ const escape = function (str) {
   return div.innerHTML;
 };
 
-const createListing = function(listingObj) {
+const createListing = function (listingObj) {
   const $listing = `
   <article class="listing">
     <img class="listing_photo" src="${listingObj.photo_url}">
@@ -17,9 +17,7 @@ const createListing = function(listingObj) {
         <span class="listing_text">${escape(listingObj.description)}</span>
         <span class="listing_text">$${listingObj.price / 100}</span>
         <span class="listing_text">${listingObj.is_sold}</span>
-        <form method="POST" action="/favourite">
-          <button type="button" class="btn btn-info"><i class="fa-regular fa-heart"></i></button>
-        </form>
+        <button type="button" class="favourite_button btn btn-info" value="${listingObj.id}"><i class="fa-regular fa-heart"></i></button>
       <div>
     </section>
   </article>
@@ -27,71 +25,89 @@ const createListing = function(listingObj) {
   return $listing;
 };
 
-const appendListing = function(listingArray) {
+const appendListing = function (listingArray) {
   for (let listing of listingArray) {
-    $('.listing_container').append(createListing(listing));
+    $(".listing_container").append(createListing(listing));
   }
 };
 
-const postListing = function(listingArray) {
+const postListing = function (listingArray) {
   for (let listing of listingArray) {
-    $('.post-container').append(createListing(listing));
+    $(".post-container").append(createListing(listing));
   }
 };
 
-const othersListing = function(listingArray) {
+const othersListing = function (listingArray) {
   for (let listing of listingArray) {
-    $('.others_container').append(createListing(listing));
+    $(".others_container").append(createListing(listing));
   }
 };
 
-const searchListing = function(listingArray) {
+// const searchListing = function(listingArray) {
+//   for (let listing of listingArray) {
+//     $('.search_container').append(createListing(listing));
+//   }
+// };
+
+const favouriteListing = function (listingArray) {
   for (let listing of listingArray) {
-    $('.search_container').append(createListing(listing));
+    $(".favourite_container").prepend(createListing(listing));
   }
 };
 
-const favouriteListing = function(listingArray) {
-  for (let listing of listingArray) {
-    $('.favourite_container').prepend(createListing(listing));
-  }
-};
-
-
-$(document).ready(function() {
+function appendData() {
   $.ajax({
-    url:'/api/listings',
-    method:'GET',
-    success: function(data) {
+    url: "/api/listings",
+    method: "GET",
+    success: function (data) {
       appendListing(data);
-    }
+    },
   });
+}
+
+$(document).ready(function () {
+  appendData();
+
+  setTimeout(function(){
+    $(".favourite_button").on("click", function (e) {
+      e.preventDefault();
+      $.ajax({
+        url: "/api/listings/favourite",
+        method: "POST",
+        data: {listing_id: $(this).val()},
+        success: function (data) {
+          console.log(data);
+        },
+      });
+    });
+  }, 1000),
 
   $.ajax({
-    url:'/api/listings/me',
-    method:'GET',
-    success: function(data) {
+    url: "/api/listings/me",
+    method: "GET",
+    success: function (data) {
       postListing(data);
-    }
+    },
   });
 
   $.ajax({
-    url: '/api/listings/favourite',
-    method: 'GET',
-    success: function(data) {
+    url: "/api/listings/favourite",
+    method: "GET",
+    success: function (data) {
       favouriteListing(data);
-    }
-  })
+    },
+  });
 
-  $.ajax({
-    url: '/search/api',
-    method:'GET',
-    success: function(data) {
-      $('.search_container').val('');
-      searchListing(data);
-    }
-  })
-// })
+
+  // $.ajax({
+  //   url: '/search/api',
+  //   method:'GET',
+  //   success: function(data) {
+  //     $('.search_container').val('');
+  //     searchListing(data);
+  //   }
+  // })
+  // })
   // const $searchform = $('.search_form');
   // $searchform.submit(function(event) {
   //   event.preventDefault();

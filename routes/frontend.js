@@ -80,9 +80,22 @@ module.exports = (db) => {
 
   router.post('/api/listings/favourite', (req, res) => {
     if (req.session.user_id) {
-
+      db.query('SELECT * FROM favourite_items WHERE user_id = $1 AND listing_id = $2;', [req.session.user_id, req.body.listing_id]).then(result => {
+        if (result.rows.length === 0) {
+          db.query('INSERT INTO favourite_items (user_id, listing_id) VALUES ($1, $2);', [req.session.user_id, req.body.listing_id]).then(result => {
+            res.send(result);
+          });
+        } else {
+          db.query('DELETE FROM favourite_items WHERE user_id = $1 AND listing_id = $2;', [req.session.user_id, req.body.listing_id]).then(result => {
+            res.send(result);
+          })
+        }
+      })
+      // Select user_id and listing_id see if it exists
+        // if exists, delete from database,
+        // if does not insert into database.
     }
-  })
+  });
 
   router.get('/search', (req, res) => {
     if (req.session.user_id) {
