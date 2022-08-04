@@ -89,7 +89,7 @@ module.exports = (db) => {
   });
 
   router.get('/search/api', (req,res) => {
-    db.query(queryText(req.body)[0],queryText(req.body)[1]).then(result => {
+    db.query(queryText(req.body),queryText(req.body)).then(result => {
       return res.send(result.rows[0]);
     })
   })

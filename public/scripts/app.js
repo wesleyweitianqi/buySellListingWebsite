@@ -43,7 +43,7 @@ const othersListing = function(listingArray) {
   }
 };
 
-const searchListing = function(listingArray) {
+const searchListing = function(listingArray = []) {
   for (let listing of listingArray) {
     $('.search_container').append(createListing(listing));
   }
@@ -51,10 +51,9 @@ const searchListing = function(listingArray) {
 
 const favouriteListing = function(listingArray) {
   for (let listing of listingArray) {
-    $('.favourite_container').prepend(createListing(listing));
+    $('.favourite_container').append(createListing(listing));
   }
 };
-
 
 $(document).ready(function() {
   $.ajax({
@@ -81,28 +80,17 @@ $(document).ready(function() {
     }
   })
 
-  $.ajax({
-    url: '/search/api',
-    method:'GET',
-    success: function(data) {
-      $('.search_container').val('');
-      searchListing(data);
-    }
-  })
-// })
-  // const $searchform = $('.search_form');
-  // $searchform.submit(function(event) {
-  //   event.preventDefault();
-  //   const input = $(this).serializeArray()//.map(function(x){formdata[x.name] = x.value;});
-  //   // console.log('input:',input);
-  //   console.log('----------------------------------------')
-  // $.ajax({
-  //   url: '/api/listings/search',
-  //   method: 'GET',
-  //   success: function(data) {
-  //     $('.search_container').val('');
-  //     searchListing(data);
-  //   }
-  // });
-  // });
+  const $searchform = $('.search_form');
+  $searchform.submit(function(event) {
+    event.preventDefault();
+    const input = $(this).serializeArray()//.map(function(x){formdata[x.name] = x.value;});
+    $.ajax({
+      url: '/api/listings/search',
+      method: 'POST',
+      data: input,
+      success: function(data) {
+        searchListing(data);
+      }
+    });
+  });
 });
