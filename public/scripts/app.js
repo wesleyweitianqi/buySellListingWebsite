@@ -12,11 +12,11 @@ const createListing = function(listingObj) {
     <img class="listing_photo" src="${listingObj.photo_url}">
     <section>
       <div class="description">
-        <span class="listing_text">${escape(listingObj.brand)}</span>
+      <span class="listing_text">${escape(listingObj.brand.toUpperCase())}</span>
         <span class="listing_text">${escape(listingObj.model)}</span>
         <span class="listing_text">${escape(listingObj.description)}</span>
-        <span class="listing_text">$${listingObj.price / 100}</span>
-        <span class="listing_text">${listingObj.is_sold}</span>
+        <div class="listing_text">$${listingObj.price.toLocaleString('en-US')}</div>
+        <span class= ${listingObj.is_sold ? "listing_text_sale": "listing_text"}>${listingObj.is_sold ? "on sale":"sold"}</span>
         <button method="POST" action="/delete" type="button" class="btn btn-info"><i class="fa-regular fa-heart"></i></button>
       <div>
     </section>
