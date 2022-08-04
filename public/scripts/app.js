@@ -17,8 +17,8 @@ const createListing = function (listingObj) {
         <span class="listing_text">${escape(listingObj.description)}</span>
         <div class="listing_text">$${listingObj.price.toLocaleString('en-US')}</div>
         <span class= ${listingObj.is_sold ? "listing_text_sale": "listing_text"}>${listingObj.is_sold ? "on sale":"sold"}</span>
-        <button type="button" class="favourite_button btn btn-info" value="${listingObj.id}"><i class="fa-regular fa-heart"></i></button>
-      <div>
+        <button type="button" class="favourite_button btn btn-info" style="background: none; border: none; box-shadow: none;" value="${listingObj.id}"><i class="fa-regular fa-heart"></i></button>
+      </div>
     </section>
   </article>
   `;
