@@ -7,6 +7,7 @@
 
 const express = require('express');
 const router  = express.Router();
+const queryText = require('./helper')
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -57,6 +58,7 @@ module.exports = (db) => {
 
       //insert post to database
   router.post('/listings/new',(req,res) => {
+    console.log('req.body:',req.body)
     const text = "INSERT INTO listings (user_id, brand, model, year, description, price, is_sold, photo_url) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
     const params = [req.session.user_id, req.body.brand, req.body.model, req.body.year, req.body.description, req.body.price, false, req.body.photo_url];
     db.query(text, params).then(() => {
@@ -65,25 +67,32 @@ module.exports = (db) => {
     .catch(err =>console.error(err));
   });
 
-    router.get('/favourite', (req, res) => {
-      if (req.session.user_id) {
-        db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
-          const templateVars = {user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].name };
-            res.render('favourite', templateVars);
-        }).catch(err => console.error(err));
-      } else {
-      res.render("favourite", {user_id: '', id: ''});
-      }
-    });
 
-    router.get('/search', (req, res) => {
-      if (req.session.user_id) {
-        db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
-          const templateVars = { user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].id };
-          res.render('search', templateVars);
-        });
-      }
-    });
+  router.get('/favourite', (req, res) => {
+    if (req.session.user_id) {
+      db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
+        const templateVars = {user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].name };
+        res.render('favourite', templateVars);
+      }).catch(err => console.error(err));
+    } else {
+      res.render("favourite", {user_id: '', id: ''});
+    }
+  });
+
+  router.get('/search', (req, res) => {
+    if (req.session.user_id) {
+      db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
+        const templateVars = { user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].id };
+        res.render('search', templateVars);
+      });
+    }
+  });
+
+  router.get('/search/api', (req,res) => {
+    db.query(queryText(req.body)[0],queryText(req.body)[1]).then(result => {
+      return res.send(result.rows[0]);
+    })
+  })
 
   return router;
 

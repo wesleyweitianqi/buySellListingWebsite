@@ -81,27 +81,28 @@ $(document).ready(function() {
     }
   })
 
-  // $.ajax({
-  //   url: '/api/listings/search',
-  //   method:'GET',
-  //   success: function(data) {
-  //     searchListing(data);
-  //   }
-  // })
-// })
-  const $searchform = $('.search_form');
-  $searchform.submit(function(event) {
-    event.preventDefault();
-    const input = $(this).serializeArray()//.map(function(x){formdata[x.name] = x.value;});
-    // console.log('input:',input);
-    console.log('----------------------------------------')
   $.ajax({
-    url: '/api/listings/search',
-    method: 'GET',
+    url: '/search/api',
+    method:'GET',
     success: function(data) {
       $('.search_container').val('');
       searchListing(data);
     }
-  });
-  });
+  })
+// })
+  // const $searchform = $('.search_form');
+  // $searchform.submit(function(event) {
+  //   event.preventDefault();
+  //   const input = $(this).serializeArray()//.map(function(x){formdata[x.name] = x.value;});
+  //   // console.log('input:',input);
+  //   console.log('----------------------------------------')
+  // $.ajax({
+  //   url: '/api/listings/search',
+  //   method: 'GET',
+  //   success: function(data) {
+  //     $('.search_container').val('');
+  //     searchListing(data);
+  //   }
+  // });
+  // });
 });
