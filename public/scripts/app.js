@@ -6,7 +6,7 @@ const escape = function (str) {
   return div.innerHTML;
 };
 
-const createListing = function (listingObj) {
+const createListing = function(listingObj) {
   const $listing = `
   <form class="listing" id="${listingObj.id}">
     <img class="listing_photo" src="${listingObj.photo_url}">
@@ -25,19 +25,19 @@ const createListing = function (listingObj) {
   return $listing;
 };
 
-const appendListing = function (listingArray) {
+const appendListing = function(listingArray) {
   for (let listing of listingArray) {
     $(".listing_container").append(createListing(listing));
   }
 };
 
-const postListing = function (listingArray) {
+const postListing = function(listingArray) {
   for (let listing of listingArray) {
     $(".post-container").append(createListing(listing));
   }
 };
 
-const othersListing = function (listingArray) {
+const othersListing = function(listingArray) {
   for (let listing of listingArray) {
     $(".others_container").append(createListing(listing));
   }
@@ -49,7 +49,7 @@ const searchListing = function(listingArray = []) {
   }
 };
 
-const favouriteListing = function (listingArray) {
+const favouriteListing = function(listingArray) {
   for (let listing of listingArray) {
     $(".favourite_container").prepend(createListing(listing));
   }
@@ -97,8 +97,6 @@ $(document).ready(function () {
       favouriteListing(data);
     },
   });
-
-  const
 
   const $searchform = $('.search_form');
   $searchform.submit(function(event) {
