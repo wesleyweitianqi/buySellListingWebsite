@@ -10,12 +10,13 @@ const createListing = function(listingObj) {
   const $listing = `
   <article class="listing">
     <img class="listing_photo" src="${listingObj.photo_url}">
-    <section class="description">
-      <div>
+    <section>
+      <div class="description">
         <span class="listing_text">${escape(listingObj.brand)}</span>
         <span class="listing_text">${escape(listingObj.model)}</span>
+        <span class="listing_text">${escape(listingObj.description)}</span>
         <span class="listing_text">$${listingObj.price / 100}</span>
-        <span class="listing_text">${listingObj.is_sold}</span>
+        <button type="submit" class="favourite_button btn btn-secondary">Add to Favourites</button>
       <div>
     </section>
   </article>
@@ -31,13 +32,19 @@ const appendListing = function(listingArray) {
 
 const postListing = function(listingArray) {
   for (let listing of listingArray) {
-    $('.post-container').prepend(createListing(listing));
+    $('.post-container').append(createListing(listing));
   }
 };
 
 const othersListing = function(listingArray) {
   for (let listing of listingArray) {
-    $('.others_container').prepend(createListing(listing));
+    $('.others_container').append(createListing(listing));
+  }
+};
+
+const filterListing = function(listingArray) {
+  for (let listing of listingArray) {
+    $('.filter_container').append(createListing(listing));
   }
 };
 
@@ -59,13 +66,21 @@ $(document).ready(function() {
   });
 
 
+  // $.ajax({
+  //   url: `/api/listings/others/${$('#other_user_id').text()}`,
+  //   method:'GET',
+  //   success: function(data) {
+  //     othersListing(data);
+  //   }
+  // });
+
   $.ajax({
-    url:`/api/listings/others/${$('#other_user_id').text()}`,
-    method:'GET',
+    url: '/api/listings/search',
+    method: 'GET',
     success: function(data) {
-      othersListing(data);
+      filterListing(data);
     }
-  });
+  })
 
 
  $('#form').submit((event) => {

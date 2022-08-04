@@ -33,29 +33,6 @@ module.exports = (db) => {
         res.render('register', {user_id : '',id : ''});
       })
 
-      router.get('/listings', (req, res) => {
-        if (req.session.user_id) {
-          db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
-            const templateVars = {user_id: req.session.user_id, id: result.rows[0].name, username: result.rows[0].name }
-            res.render('listings', templateVars);
-          }).catch(err => console.error(err));
-        } else {
-          res.redirect('/login');
-        }
-      });
-
-      router.get('/listings/new', (req, res) => {
-        if (req.session.user_id) {
-          db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
-            const templateVars = {user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].name };
-              res.render('post', templateVars);
-          }).catch(err => console.error(err));
-        } else {
-        res.render("post", {user_id: '', id: ''});
-        }
-      });
-
-
     router.get('/register', (req,res) => {
       res.render('register', {user_id : '',id : ''});
     })

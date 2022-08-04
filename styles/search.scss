@@ -7,23 +7,29 @@
     flex-direction: row;
 
     .minimum_price {
-      margin-top: 1em;
+      margin-left: 0.5em;
+      margin-right: 0.5em;
     }
 
     .maximum_price {
-      margin-top: 1em;
+      margin-left: 0.5em;
+      margin-right: 0.5em;
     }
   }
 
   .brand_form {
-    margin: 1em;
+    margin-top: 1em;
   }
 
   .model_form {
-    margin: 1em;
+    margin-top: 1em;
   }
 
   .year_form {
-    margin: 1em;
+    margin-top: 1em;
+  }
+
+  .search_button {
+    margin-top: 1em;
   }
 }
