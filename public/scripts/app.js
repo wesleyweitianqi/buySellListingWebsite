@@ -6,7 +6,7 @@ const escape = function (str) {
   return div.innerHTML;
 };
 
-const createListing = function(listingObj) {
+const createListing = function (listingObj) {
   const $listing = `
   <form class="listing" id="${listingObj.id}">
     <img class="listing_photo" src="${listingObj.photo_url}">
@@ -17,7 +17,7 @@ const createListing = function(listingObj) {
         <span class="listing_text">${escape(listingObj.description)}</span>
         <div class="listing_text">$${listingObj.price.toLocaleString('en-US')}</div>
         <span class= ${listingObj.is_sold ? "listing_text_sale": "listing_text"}>${listingObj.is_sold ? "on sale":"sold"}</span>
-        <button method="POST" action="/delete" type="button" class="btn btn-info"><i class="fa-regular fa-heart"></i></button>
+        <button type="button" class="favourite_button btn btn-info" value="${listingObj.id}"><i class="fa-regular fa-heart"></i></button>
       <div>
     </section>
   </form>
@@ -25,21 +25,21 @@ const createListing = function(listingObj) {
   return $listing;
 };
 
-const appendListing = function(listingArray) {
+const appendListing = function (listingArray) {
   for (let listing of listingArray) {
-    $('.listing_container').append(createListing(listing));
+    $(".listing_container").append(createListing(listing));
   }
 };
 
-const postListing = function(listingArray) {
+const postListing = function (listingArray) {
   for (let listing of listingArray) {
-    $('.post-container').append(createListing(listing));
+    $(".post-container").append(createListing(listing));
   }
 };
 
-const othersListing = function(listingArray) {
+const othersListing = function (listingArray) {
   for (let listing of listingArray) {
-    $('.others_container').append(createListing(listing));
+    $(".others_container").append(createListing(listing));
   }
 };
 
@@ -49,36 +49,54 @@ const searchListing = function(listingArray = []) {
   }
 };
 
-const favouriteListing = function(listingArray) {
+const favouriteListing = function (listingArray) {
   for (let listing of listingArray) {
-    $('.favourite_container').append(createListing(listing));
+    $(".favourite_container").prepend(createListing(listing));
   }
 };
 
-$(document).ready(function() {
+function appendData() {
   $.ajax({
-    url:'/api/listings',
-    method:'GET',
-    success: function(data) {
+    url: "/api/listings",
+    method: "GET",
+    success: function (data) {
       appendListing(data);
-    }
+    },
   });
+}
+
+$(document).ready(function () {
+  appendData();
+
+  setTimeout(function(){
+    $(".favourite_button").on("click", function (e) {
+      e.preventDefault();
+      $.ajax({
+        url: "/api/listings/favourite",
+        method: "POST",
+        data: {listing_id: $(this).val()},
+        success: function (data) {
+          console.log(data);
+        },
+      });
+    });
+  }, 1000),
 
   $.ajax({
-    url:'/api/listings/me',
-    method:'GET',
-    success: function(data) {
+    url: "/api/listings/me",
+    method: "GET",
+    success: function (data) {
       postListing(data);
-    }
+    },
   });
 
   $.ajax({
-    url: '/api/listings/favourite',
-    method: 'GET',
-    success: function(data) {
+    url: "/api/listings/favourite",
+    method: "GET",
+    success: function (data) {
       favouriteListing(data);
-    }
-  })
+    },
+  });
 
   const
 
