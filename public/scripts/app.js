@@ -8,7 +8,7 @@ const escape = function (str) {
 
 const createListing = function(listingObj) {
   const $listing = `
-  <article class="listing">
+  <form class="listing" id="${listingObj.id}">
     <img class="listing_photo" src="${listingObj.photo_url}">
     <section>
       <div class="description">
@@ -20,7 +20,7 @@ const createListing = function(listingObj) {
         <button method="POST" action="/delete" type="button" class="btn btn-info"><i class="fa-regular fa-heart"></i></button>
       <div>
     </section>
-  </article>
+  </form>
   `;
   return $listing;
 };
@@ -79,6 +79,8 @@ $(document).ready(function() {
       favouriteListing(data);
     }
   })
+
+  const
 
   const $searchform = $('.search_form');
   $searchform.submit(function(event) {
