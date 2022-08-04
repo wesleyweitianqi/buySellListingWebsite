@@ -103,6 +103,8 @@ module.exports = (db) => {
         const templateVars = { user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].id };
         res.render('search', templateVars);
       });
+    } else {
+      res.redirect('/login');
     }
   });
 
