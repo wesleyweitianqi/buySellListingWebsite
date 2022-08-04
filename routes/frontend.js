@@ -27,17 +27,18 @@ module.exports = (db) => {
         if(req.session.user_id) {
           return res.redirect('/');
         }
-        res.render('login', {user_id : '', id :''})
+        res.render('login', {user_id : null, id :null})
       });
 
       router.get('/register', (req,res) => {
-        res.render('register', {user_id : '',id : ''});
+        res.render('register', {user_id: null, id: null});
       })
 
     router.get('/listings', (req, res) => {
       if (req.session.user_id) {
         db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
-          const templateVars = {user_id: req.session.user_id, id: result.rows[0].name, username: result.rows[0].name }
+          const templateVars = {user_id: req.session.user_id, id: result.rows[0].name, username: result.rows[0].name, email: result.rows[0].email };
+          console.log(templateVars.email);
           res.render('listings', templateVars);
         }).catch(err => console.error(err));
       } else {
@@ -52,13 +53,12 @@ module.exports = (db) => {
             res.render('post', templateVars);
         }).catch(err => console.error(err));
       } else {
-      res.render("post", {user_id: '', id: ''});
+      res.render("post", {user_id: null, id: null});
       }
     });
 
       //insert post to database
   router.post('/listings/new',(req,res) => {
-    console.log('req.body:',req.body)
     const text = "INSERT INTO listings (user_id, brand, model, year, description, price, is_sold, photo_url) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
     const params = [req.session.user_id, req.body.brand, req.body.model, req.body.year, req.body.description, req.body.price, false, req.body.photo_url];
     db.query(text, params).then(() => {
@@ -75,7 +75,23 @@ module.exports = (db) => {
         res.render('favourite', templateVars);
       }).catch(err => console.error(err));
     } else {
-      res.render("favourite", {user_id: '', id: ''});
+      res.redirect('/login');
+    }
+  });
+
+  router.post('/api/listings/favourite', (req, res) => {
+    if (req.session.user_id) {
+      db.query('SELECT * FROM favourite_items WHERE user_id = $1 AND listing_id = $2;', [req.session.user_id, req.body.listing_id]).then(result => {
+        if (result.rows.length === 0) {
+          db.query('INSERT INTO favourite_items (user_id, listing_id) VALUES ($1, $2);', [req.session.user_id, req.body.listing_id]).then(result => {
+            res.send(result);
+          });
+        } else {
+          db.query('DELETE FROM favourite_items WHERE user_id = $1 AND listing_id = $2;', [req.session.user_id, req.body.listing_id]).then(result => {
+            res.send(result);
+          });
+        }
+      });
     }
   });
 
@@ -85,6 +101,8 @@ module.exports = (db) => {
         const templateVars = { user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].id };
         res.render('search', templateVars);
       });
+    } else {
+      res.redirect('/login');
     }
   });
 
