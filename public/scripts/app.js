@@ -16,6 +16,7 @@ const createListing = function(listingObj) {
         <span class="listing_text">${escape(listingObj.model)}</span>
         <span class="listing_text">$${listingObj.price / 100}</span>
         <span class="listing_text">${listingObj.is_sold}</span>
+        <button method="POST" action="/delete" type="button" class="btn btn-info"><i class="fa-regular fa-heart"></i></button>
       <div>
     </section>
   </article>
@@ -41,6 +42,13 @@ const othersListing = function(listingArray) {
   }
 };
 
+const favouriteListing = function(listingArray) {
+  for (let listing of listingArray) {
+    $('.favourite_container').prepend(createListing(listing));
+  }
+};
+
+
 $(document).ready(function() {
   $.ajax({
     url:'/api/listings',
@@ -59,11 +67,19 @@ $(document).ready(function() {
   });
 
 
+  // $.ajax({
+  //   url:`/api/listings/others/${$('#other_user_id').text()}`,
+  //   method:'GET',
+  //   success: function(data) {
+  //     othersListing(data);
+  //   }
+  // });
+
   $.ajax({
-    url:`/api/listings/others/${$('#other_user_id').text()}`,
-    method:'GET',
+    url: '/api/listings/favourite',
+    method: 'GET',
     success: function(data) {
-      othersListing(data);
+      favouriteListing(data);
     }
   });
 
@@ -71,7 +87,9 @@ $(document).ready(function() {
  $('#form').submit((event) => {
   event.preventDefault();
   const formdata = {};
-  $("#form").serializeArray().map(function(x){formdata[x.name] = x.value;});
+  const input = $("#form").serializeArray()//.map(function(x){formdata[x.name] = x.value;});
+  console.log(input)
+  console.log('----------------------------------------')
   console.log(formdata);
     $.ajax({
       url: '/api/listings',

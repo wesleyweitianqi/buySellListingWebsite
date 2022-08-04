@@ -82,6 +82,17 @@ module.exports = (db) => {
       }
     });
 
+    router.get('/favourite', (req, res) => {
+      if (req.session.user_id) {
+        db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
+          const templateVars = {user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].name };
+            res.render('favourite', templateVars);
+        }).catch(err => console.error(err));
+      } else {
+      res.render("favourite", {user_id: '', id: ''});
+      }
+    });
+
     router.get('/search', (req,res) => {
       if (req.session.user_id) {
         db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {

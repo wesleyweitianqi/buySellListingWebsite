@@ -4,6 +4,7 @@
   <a class="nav-link" href="/listings">Listings</a>
   <% if (user_id) { %>
     <a class="nav-link" href="/listings/new">My Post</a>
+    <a class="nav-link" href="/favourite">My Favourite</a>
     <label><%= username %></label>
     <form method="POST" action="/api/users/logout">
       <button class="nav-link" type="submit">Logout</button>
