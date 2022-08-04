@@ -17,7 +17,9 @@ const createListing = function(listingObj) {
         <span class="listing_text">${escape(listingObj.description)}</span>
         <span class="listing_text">$${listingObj.price / 100}</span>
         <span class="listing_text">${listingObj.is_sold}</span>
-        <button method="POST" action="/delete" type="button" class="btn btn-info"><i class="fa-regular fa-heart"></i></button>
+        <form method="POST" action="/favourite">
+          <button type="button" class="btn btn-info"><i class="fa-regular fa-heart"></i></button>
+        </form>
       <div>
     </section>
   </article>
