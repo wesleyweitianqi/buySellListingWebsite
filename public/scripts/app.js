@@ -43,9 +43,9 @@ const othersListing = function(listingArray) {
   }
 };
 
-const filterListing = function(listingArray) {
+const searchListing = function(listingArray) {
   for (let listing of listingArray) {
-    $('.filter_container').append(createListing(listing));
+    $('.search_container').append(createListing(listing));
   }
 };
 
@@ -81,24 +81,27 @@ $(document).ready(function() {
     }
   })
 
+  // $.ajax({
+  //   url: '/api/listings/search',
+  //   method:'GET',
+  //   success: function(data) {
+  //     searchListing(data);
+  //   }
+  // })
+// })
   const $searchform = $('.search_form');
   $searchform.submit(function(event) {
     event.preventDefault();
     const input = $(this).serializeArray()//.map(function(x){formdata[x.name] = x.value;});
-    console.log('input:',input);
+    // console.log('input:',input);
     console.log('----------------------------------------')
   $.ajax({
-    url: '/search',
-    method: 'POST',
-    data:input,
-    success: function() {
-      alert('hello')
-      $.get('/api/listings/me', function(data) {
-        db.query('select * from users').then(result => console.log(result.rows))
-        $('.post-container').prepend(createListing(data[0]));
-      })
+    url: '/api/listings/search',
+    method: 'GET',
+    success: function(data) {
+      $('.search_container').val('');
+      searchListing(data);
     }
   });
   });
 });
-
