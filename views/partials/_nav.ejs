@@ -4,10 +4,11 @@
   <a class="nav-link" href="/listings">Listings</a>
   <% if (user_id) { %>
     <a class="nav-link" href="/listings/new">My Post</a>
+    <a class="nav-link" href="/favourite">My Favourite</a>
     <div class="name-logout">
-    <label class="name">Hello, <%= username %></label>
+      <label class="name">Hello, <%= username %></label>
     <form method="POST" action="/api/users/logout">
-      <button class="nav-link" type="submit">Logout</button>
+      <button class="btn btn-primary" type="submit">Logout</button>
     </form>
     </div>
   <% } else { %>

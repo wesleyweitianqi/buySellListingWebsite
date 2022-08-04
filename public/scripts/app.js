@@ -10,12 +10,14 @@ const createListing = function(listingObj) {
   const $listing = `
   <article class="listing">
     <img class="listing_photo" src="${listingObj.photo_url}">
-    <section class="description">
-      <div>
-        <span class="listing_text">${escape(listingObj.brand.toUpperCase())}</span>
+    <section>
+      <div class="description">
+      <span class="listing_text">${escape(listingObj.brand.toUpperCase())}</span>
         <span class="listing_text">${escape(listingObj.model)}</span>
+        <span class="listing_text">${escape(listingObj.description)}</span>
         <div class="listing_text">$${listingObj.price.toLocaleString('en-US')}</div>
         <span class= ${listingObj.is_sold ? "listing_text_sale": "listing_text"}>${listingObj.is_sold ? "on sale":"sold"}</span>
+        <button method="POST" action="/delete" type="button" class="btn btn-info"><i class="fa-regular fa-heart"></i></button>
       <div>
     </section>
   </article>
@@ -31,15 +33,28 @@ const appendListing = function(listingArray) {
 
 const postListing = function(listingArray) {
   for (let listing of listingArray) {
-    $('.post-container').prepend(createListing(listing));
+    $('.post-container').append(createListing(listing));
   }
 };
 
 const othersListing = function(listingArray) {
   for (let listing of listingArray) {
-    $('.others_container').prepend(createListing(listing));
+    $('.others_container').append(createListing(listing));
   }
 };
+
+const searchListing = function(listingArray) {
+  for (let listing of listingArray) {
+    $('.search_container').append(createListing(listing));
+  }
+};
+
+const favouriteListing = function(listingArray) {
+  for (let listing of listingArray) {
+    $('.favourite_container').prepend(createListing(listing));
+  }
+};
+
 
 $(document).ready(function() {
   $.ajax({
@@ -58,31 +73,36 @@ $(document).ready(function() {
     }
   });
 
+  $.ajax({
+    url: '/api/listings/favourite',
+    method: 'GET',
+    success: function(data) {
+      favouriteListing(data);
+    }
+  })
 
   $.ajax({
-    url:`/api/listings/others/${$('#other_user_id').text()}`,
+    url: '/search/api',
     method:'GET',
     success: function(data) {
-      othersListing(data);
+      $('.search_container').val('');
+      searchListing(data);
     }
-  });
-
-
- $('#form').submit((event) => {
-  event.preventDefault();
-  const formdata = {};
-  $("#form").serializeArray().map(function(x){formdata[x.name] = x.value;});
-  console.log(formdata);
-    $.ajax({
-      url: '/api/listings',
-      method: 'POST',
-      data:formdata,
-      success: function() {
-        $.get('/api/listings/me', function(data) {
-          $('.post-container').prepend(createListing(data[0]));
-        })
-      }
-    });
-  });
+  })
+// })
+  // const $searchform = $('.search_form');
+  // $searchform.submit(function(event) {
+  //   event.preventDefault();
+  //   const input = $(this).serializeArray()//.map(function(x){formdata[x.name] = x.value;});
+  //   // console.log('input:',input);
+  //   console.log('----------------------------------------')
+  // $.ajax({
+  //   url: '/api/listings/search',
+  //   method: 'GET',
+  //   success: function(data) {
+  //     $('.search_container').val('');
+  //     searchListing(data);
+  //   }
+  // });
+  // });
 });
-

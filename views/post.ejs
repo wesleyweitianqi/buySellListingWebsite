@@ -13,6 +13,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/scripts/app.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- CSS only -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 </head>
@@ -20,35 +21,35 @@
   <%- include('partials/_nav') %>
   <h1>Make a Listing for your Vehicle:</h1>
   <div class="post_form">
-    <form id="post_form">
+    <form id="post_form" method="POST" action="/listings/new">
       <label class="brand_text" for="Brand">Car Brand:</label>
       <input
         type="text"
-        name="Brand"
+        name="brand"
         placeholder="Brand"
       />
       <label class="model_text" for="Model">Car Model:</label>
       <input
         type="text"
-        name="Model"
+        name="model"
         placeholder="Model"
       />
       <label class="year_text" for="Year">Year Manufactured:</label>
       <input
         type="text"
-        name="Year"
+        name="year"
         placeholder="YYYY"
       />
       <label class="description_text" for="Description">Enter a Brief Description of your vehicle:</label>
       <textarea
         type="text"
-        name="Description"
+        name="description"
         placeholder="Enter a Description"
         resize="none"></textarea>
       <label class="price_text" for="Price">Enter a Listing Price:</label>
       <input
         type="number"
-        name="Price"
+        name="price"
         placeholder="$25000"
       />
       <label class="photo_url_text" for="url">Please upload a picture of your vehicle:</label>
@@ -56,11 +57,14 @@
         type="text"
         name="photo_url"
       />
-      <button class="button btn btn-primary" type="submit" id="post-form">Submit</button>
+      <button class="button btn btn-primary" type="submit">Submit</button>
     </form>
   </div>
-  <div class="post-container">
-  </div>
+  <section class="myListing">
+    <h1>My Listings:</h1>
+    <div class="post-container">
+    </div>
+  </section>
   <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 

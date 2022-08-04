@@ -14,7 +14,7 @@ body {
     top:0;
     width:100vw;
     background: silver;
-    justify-content: space-around;
+    justify-content: left;
     align-items: center;
     padding-top: 1em;
     padding-top: 5px;
@@ -39,9 +39,31 @@ body {
   .name-logout {
     display:flex;
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1em;
+    justify-content: right;
+    width: 45%;
+
+    img {
+      width: 642px;
+    }
+
+    .listing {
+      flex: 1 0 100%;
+      margin: 5px;
+      height: 500px;
+      color: white;
+      background-color: #338a4a;
+      padding: 0.5em;
+      display: flex;
+
+      .description {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5em;
+        margin-left: 5em;
+      }
+    }
   }
 
   body div:nth-child(1) {
@@ -100,5 +122,14 @@ body {
   }
   .nav-link:hover {
     color: white;
+
+    .nav-link {
+      color: white;
+    }
+  }
+
+  img {
+    width: 300px;
+
   }
 }
