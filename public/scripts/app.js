@@ -15,8 +15,9 @@ const createListing = function(listingObj) {
         <span class="listing_text">${escape(listingObj.brand)}</span>
         <span class="listing_text">${escape(listingObj.model)}</span>
         <span class="listing_text">${escape(listingObj.description)}</span>
-        <span class="listing_text">$${listingObj.price}</span>
-        <button type="submit" class="favourite_button btn btn-secondary">Add to Favourites</button>
+        <span class="listing_text">$${listingObj.price / 100}</span>
+        <span class="listing_text">${listingObj.is_sold}</span>
+        <button method="POST" action="/delete" type="button" class="btn btn-info"><i class="fa-regular fa-heart"></i></button>
       <div>
     </section>
   </article>
@@ -48,6 +49,13 @@ const filterListing = function(listingArray) {
   }
 };
 
+const favouriteListing = function(listingArray) {
+  for (let listing of listingArray) {
+    $('.favourite_container').prepend(createListing(listing));
+  }
+};
+
+
 $(document).ready(function() {
   $.ajax({
     url:'/api/listings',
@@ -65,39 +73,32 @@ $(document).ready(function() {
     }
   });
 
-
-  // $.ajax({
-  //   url: `/api/listings/others/${$('#other_user_id').text()}`,
-  //   method:'GET',
-  //   success: function(data) {
-  //     othersListing(data);
-  //   }
-  // });
-
   $.ajax({
-    url: '/api/listings/search',
+    url: '/api/listings/favourite',
     method: 'GET',
     success: function(data) {
-      filterListing(data);
+      favouriteListing(data);
     }
   })
 
-
- $('#form').submit((event) => {
-  event.preventDefault();
-  const formdata = {};
-  $("#form").serializeArray().map(function(x){formdata[x.name] = x.value;});
-  console.log(formdata);
-    $.ajax({
-      url: '/api/listings',
-      method: 'POST',
-      data:formdata,
-      success: function() {
-        $.get('/api/listings/me', function(data) {
-          $('.post-container').prepend(createListing(data[0]));
-        })
-      }
-    });
+  const $searchform = $('.search_form');
+  $searchform.submit(function(event) {
+    event.preventDefault();
+    const input = $(this).serializeArray()//.map(function(x){formdata[x.name] = x.value;});
+    console.log('input:',input);
+    console.log('----------------------------------------')
+  $.ajax({
+    url: '/search',
+    method: 'POST',
+    data:input,
+    success: function() {
+      alert('hello')
+      $.get('/api/listings/me', function(data) {
+        db.query('select * from users').then(result => console.log(result.rows))
+        $('.post-container').prepend(createListing(data[0]));
+      })
+    }
+  });
   });
 });
 
