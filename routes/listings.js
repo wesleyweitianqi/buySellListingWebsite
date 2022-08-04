@@ -36,7 +36,6 @@ module.exports = (db) => {
   router.get('/favourite', (req, res) => {
     if (req.session.user_id) {
       db.query('SELECT * FROM listings JOIN favourite_items ON listings.id = favourite_items.listing_id WHERE favourite_items.user_id = $1', [req.session.user_id]).then(result => {
-        console.log("result.rows:", result.rows);
         return res.send(result.rows);
       }).catch(err => console.error(err));
     }

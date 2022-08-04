@@ -12,7 +12,7 @@ const createListing = function(listingObj) {
     <img class="listing_photo" src="${listingObj.photo_url}">
     <section>
       <div class="description">
-      <span class="listing_text">${escape(listingObj.brand.toUpperCase())}</span>
+        <span class="listing_text">${escape(listingObj.brand.toUpperCase())}</span>
         <span class="listing_text">${escape(listingObj.model)}</span>
         <span class="listing_text">${escape(listingObj.description)}</span>
         <div class="listing_text">$${listingObj.price.toLocaleString('en-US')}</div>
@@ -25,9 +25,15 @@ const createListing = function(listingObj) {
   return $listing;
 };
 
-const appendListing = function(listingArray) {
+const emailButton = `
+<a href="mailto:<%= email %>>"
+  <button type="submit" class="email_button btn btn-secondary" style="width: 40%; display: flex; align-self: center; justify-content: center;">Contact Seller</button>
+</a>
+`;
+
+const appendListing = function (listingArray) {
   for (let listing of listingArray) {
-    $(".listing_container").append(createListing(listing));
+    $(".listing_container").append(createListing(listing)).append(emailButton);
   }
 };
 
