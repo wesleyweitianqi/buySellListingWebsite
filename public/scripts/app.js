@@ -15,7 +15,7 @@ const createListing = function(listingObj) {
         <span class="listing_text">${escape(listingObj.brand)}</span>
         <span class="listing_text">${escape(listingObj.model)}</span>
         <span class="listing_text">${escape(listingObj.description)}</span>
-        <span class="listing_text">$${listingObj.price / 100}</span>
+        <span class="listing_text">$${listingObj.price}</span>
         <button type="submit" class="favourite_button btn btn-secondary">Add to Favourites</button>
       <div>
     </section>

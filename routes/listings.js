@@ -76,7 +76,7 @@ module.exports = (db) => {
   router.get('/search', (req, res) => {
     if (req.session.user_id) {
       db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
-        const templateVars = { user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].id };
+        const templateVars = { user_id: req.session.user_id, username: result.rows[0].name, id: result.rows[0].id }
         res.render('filter', templateVars);
       });
     }
