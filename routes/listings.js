@@ -9,7 +9,7 @@ module.exports = (db) => {
   router.get('/', (req, res) => {
     if (req.session.user_id) {
       db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(results => {
-        db.query('SELECT * FROM listings ORDER BY time_created DESC')
+        db.query('SELECT * FROM listings JOIN users ON users.id = user_id ORDER BY time_created DESC')
         .then(result => {
           const listings = result.rows;
           res.send(listings);

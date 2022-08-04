@@ -37,8 +37,7 @@ module.exports = (db) => {
     router.get('/listings', (req, res) => {
       if (req.session.user_id) {
         db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
-          const templateVars = {user_id: req.session.user_id, id: result.rows[0].name, username: result.rows[0].name, email: result.rows[0].email };
-          console.log(templateVars.email);
+          const templateVars = {user_id: req.session.user_id, id: result.rows[0].name, username: result.rows[0].name };
           res.render('listings', templateVars);
         }).catch(err => console.error(err));
       } else {

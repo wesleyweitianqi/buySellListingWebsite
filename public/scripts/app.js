@@ -25,15 +25,18 @@ const createListing = function (listingObj) {
   return $listing;
 };
 
-const emailButton = `
-<a href="mailto:<%= email %>>"
-  <button type="submit" class="email_button btn btn-secondary" style="width: 40%; display: flex; align-self: center; justify-content: center;">Contact Seller</button>
-</a>
-`;
+const createEmailButton = function (userObj) {
+  const $emailButton = `
+  <a class="email_button" style="display: flex; align-self: center; justify-content: center;" href="mailto:${userObj.email}">
+    <button type="submit" class="btn btn-secondary">Contact Seller</button>
+  </a>
+  `;
+  return $emailButton;
+};
 
 const appendListing = function (listingArray) {
   for (let listing of listingArray) {
-    $(".listing_container").append(createListing(listing)).append(emailButton);
+    $(".listing_container").append(createListing(listing)).append(createEmailButton(listing));
   }
 };
 
@@ -69,7 +72,7 @@ function appendData() {
       appendListing(data);
     },
   });
-}
+};
 
 $(document).ready(function () {
   appendData();
@@ -82,7 +85,6 @@ $(document).ready(function () {
         method: "POST",
         data: {listing_id: $(this).val()},
         success: function (data) {
-          console.log(data);
         },
       });
     });
