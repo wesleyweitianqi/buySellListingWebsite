@@ -88,12 +88,9 @@ module.exports = (db) => {
         } else {
           db.query('DELETE FROM favourite_items WHERE user_id = $1 AND listing_id = $2;', [req.session.user_id, req.body.listing_id]).then(result => {
             res.send(result);
-          })
+          });
         }
-      })
-      // Select user_id and listing_id see if it exists
-        // if exists, delete from database,
-        // if does not insert into database.
+      });
     }
   });
 
