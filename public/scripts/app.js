@@ -6,9 +6,9 @@ const escape = function (str) {
   return div.innerHTML;
 };
 
-const createListing = function (listingObj) {
+const createListing = function(listingObj) {
   const $listing = `
-  <article class="listing">
+  <form class="listing" id="${listingObj.id}">
     <img class="listing_photo" src="${listingObj.photo_url}">
     <section class= "list_details">
       <div class="brand_model">
@@ -22,7 +22,7 @@ const createListing = function (listingObj) {
         <button style="background: none; border: none; box-shadow: none;" value="${listingObj.id}" type="button" class="favourite_button btn btn-info"><i class="fa-regular fa-heart"></i></button>
       </div>
     </section>
-  </article>
+  </form>
   `;
   return $listing;
 };
@@ -52,13 +52,13 @@ const appendListing = function (listingArray) {
   }
 };
 
-const postListing = function (listingArray) {
+const postListing = function(listingArray) {
   for (let listing of listingArray) {
     $(".post-container").append(createListing(listing)).append(createDeleteButton(listing));
   }
 };
 
-const othersListing = function (listingArray) {
+const othersListing = function(listingArray) {
   for (let listing of listingArray) {
     $(".others_container").append(createListing(listing));
   }
@@ -70,7 +70,7 @@ const searchListing = function(listingArray = []) {
   }
 };
 
-const favouriteListing = function (listingArray) {
+const favouriteListing = function(listingArray) {
   for (let listing of listingArray) {
     $(".favourite_container").prepend(createListing(listing));
   }
@@ -141,6 +141,7 @@ $(document).ready(function () {
       method: 'POST',
       data: input,
       success: function(data) {
+        $('.search_container').empty();
         searchListing(data);
       }
     });

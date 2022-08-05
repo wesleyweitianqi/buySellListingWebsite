@@ -9,6 +9,7 @@ VALUES ('David', 'david@braverman.com', '123'),
 ('Claire', 'claire@redfield.com', '678'),
 ('Ethan', 'ethan@winters.com', '901'),
 ('Abigail', 'abigail@wizard.com', '156');
+('wesley','user@example.com', '$2a$10$k1GVroByE8Gfq6b3TxqVVOx2K4BYWfSYqnM7tk9SvAxLwKTBtnFXS');
 
 INSERT INTO listings (user_id, brand, model, year, description, price, is_sold, photo_url)
   VALUES (1, 'audi', 'A3', 2018, '2018 Audi A3 2.0 Technik | PWR SUNROOF | NAV | 23 K | HTD SEATS', 26000, false, 'https://tdrpmimages.azureedge.net/photos/import/202207/0521/4804/5bd682ef-7896-4ed4-976b-90f022273664.jpg-1024x786'),
@@ -76,4 +77,11 @@ VALUES (1, 15),
 (10, 3),
 (10, 5),
 (10, 6),
-(10, 8);
+(10, 8),
+(11, 30),
+(11, 31),
+(11, 32),
+(11, 33),
+(11, 34),
+(11,35);
+
