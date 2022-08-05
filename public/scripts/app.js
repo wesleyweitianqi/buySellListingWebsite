@@ -14,7 +14,7 @@ const createListing = function(listingObj) {
       <div class="brand_model">
         <span class="brand">${escape(listingObj.brand.toUpperCase())}</span>
         <span class="model">${escape(listingObj.model)}</span>
-      </div> 
+      </div>
         <span class="description">${escape(listingObj.description)}</span>
       <div class="price_sold">
         <div class="price">$${listingObj.price.toLocaleString('en-US')}</div>
@@ -37,11 +37,10 @@ const createEmailButton = function (userObj) {
 };
 
 const createDeleteButton = function (listingObj) {
-  console.log("listingObj:", listingObj);
   const $deleteButton = `
-  <form action="/delete" method="POST" style="display: flex; justify-content: center; align-items: center; margin-bottom: 1em; margin-top: 1em;">
-    <button type="submit" class="delete_button btn btn-danger" value="${listingObj.id}" style="display: flex;">Remove</button>
-  </form>
+  <div class="removeform" id="${listingObj.id}" value="${listingObj.id} style="display:flex; justify-content: center; align-items: center; margin-bottom: 1em; margin-top: 1em;">
+    delete
+  </div>
   `;
   return $deleteButton;
 }
@@ -54,7 +53,7 @@ const appendListing = function (listingArray) {
 
 const postListing = function(listingArray) {
   for (let listing of listingArray) {
-    $(".post-container").append(createListing(listing)).append(createDeleteButton(listing));
+    $(".postformdelete").append(createListing(listing)).append(createDeleteButton(listing));
   }
 };
 
@@ -111,6 +110,19 @@ $(document).ready(function () {
     },
   });
 
+  // const $remove = $('.remove');
+  // $remove.submit(function(event) {
+  //   event.preventDefault();
+    // $.ajax({
+    //   url: '/api/listings/me',
+    //   method: 'POST',
+    //   success: function(data) {
+    //     console.log('data:',data)
+    //     postListing(data);
+    //   }
+    // })
+  // });
+
   $.ajax({
     url: "/api/listings/favourite",
     method: "GET",
@@ -119,19 +131,21 @@ $(document).ready(function () {
     },
   });
 
-  setTimeout(function() {
-    $(".delete_button").on('click', function (e) {
-      e.preventDefault();
-      $.ajax({
-        url: '/delete',
-        method: "POST",
-        data: {listing_id: $(this).val()},
-        success: function (data) {
-          console.log(data);
-        }
-      });
-    });
-  }, 250);
+  // setTimeout(() => {
+  //   $(".delete_button").on('click', function (e) {
+  //     e.preventDefault();
+  //     $.ajax({
+  //       url: '/delete',
+  //       method: "POST",
+  //       data: {listing_id: $(this).val()},
+  //       success: function (data) {
+  //         console.log(data);
+  //       }
+  //     });
+  //   });
+
+  // }, 250);
+
 
   const $searchform = $('.search_form');
   $searchform.submit(function(event) {
@@ -147,4 +161,23 @@ $(document).ready(function () {
       }
     });
   });
+
+  // const $Button = $('#listing_id');
+  // $Button.onclick(function(event) {
+  //   alert('ok')
+  //   event.preventDefault();
+  //   let button = $(this).val();
+  //   console.log(button);
+  //   $.ajax({
+  //     url: '/api/listings/delete',
+  //     method: 'POST',
+  //     data: input,
+  //     success: function(data) {
+  //         $('.post_container').empty();
+  //         postListing(data);
+  //       }
+  //      })
+
+  //   });
+
 });
