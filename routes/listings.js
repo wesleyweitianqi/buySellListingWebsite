@@ -9,7 +9,7 @@ module.exports = (db) => {
   router.get('/', (req, res) => {
     if (req.session.user_id) {
       db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(results => {
-        db.query('SELECT * FROM listings ORDER BY time_created DESC')
+        db.query('SELECT * FROM listings JOIN users ON users.id = user_id ORDER BY time_created DESC')
         .then(result => {
           const listings = result.rows;
           res.send(listings);
@@ -56,16 +56,6 @@ module.exports = (db) => {
       })
     }
   });
-
-  //delete select items
-  router.post('/delete', (req, res) => {
-    if (req.session.user_id) {
-      db.query('SELECT * FROM listings JOIN favourite_items ON listings.user_id = favourite_items.user_id where favourite_items.user_id = $1', [req.session.user_id]).then(result => {
-        return res.send(result.rows);
-      }).catch(err => console.error(err));
-    }
-  })
-
 
   return router;
 };

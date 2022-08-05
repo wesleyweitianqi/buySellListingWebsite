@@ -25,21 +25,34 @@ const createListing = function(listingObj) {
   return $listing;
 };
 
-const emailButton = `
-<a href="mailto:<%= email %>>"
-  <button type="submit" class="email_button btn btn-secondary" style="width: 40%; display: flex; align-self: center; justify-content: center;">Contact Seller</button>
-</a>
-`;
+const createEmailButton = function (userObj) {
+  const $emailButton = `
+  <a class="email_button" style="display: flex; align-self: center; justify-content: center;" href="mailto:${userObj.email}">
+    <button type="submit" class="btn btn-secondary">Contact Seller</button>
+  </a>
+  `;
+  return $emailButton;
+};
+
+const createDeleteButton = function (listingObj) {
+  console.log("listingObj:", listingObj);
+  const $deleteButton = `
+  <form action="/delete" method="POST" style="display: flex; justify-content: center; align-items: center; margin-bottom: 1em; margin-top: 1em;">
+    <button type="submit" class="delete_button btn btn-danger" value="${listingObj.id}" style="display: flex;">Remove</button>
+  </form>
+  `;
+  return $deleteButton;
+}
 
 const appendListing = function (listingArray) {
   for (let listing of listingArray) {
-    $(".listing_container").append(createListing(listing)).append(emailButton);
+    $(".listing_container").append(createListing(listing)).append(createEmailButton(listing));
   }
 };
 
 const postListing = function(listingArray) {
   for (let listing of listingArray) {
-    $(".post-container").append(createListing(listing));
+    $(".post-container").append(createListing(listing)).append(createDeleteButton(listing));
   }
 };
 
@@ -69,12 +82,12 @@ function appendData() {
       appendListing(data);
     },
   });
-}
+};
 
 $(document).ready(function () {
   appendData();
 
-  setTimeout(function(){
+  setTimeout(function() {
     $(".favourite_button").on("click", function (e) {
       e.preventDefault();
       $.ajax({
@@ -82,11 +95,10 @@ $(document).ready(function () {
         method: "POST",
         data: {listing_id: $(this).val()},
         success: function (data) {
-          console.log(data);
         },
       });
     });
-  }, 1000),
+  }, 250);
 
   $.ajax({
     url: "/api/listings/me",
@@ -103,6 +115,20 @@ $(document).ready(function () {
       favouriteListing(data);
     },
   });
+
+  setTimeout(function() {
+    $(".delete_button").on('click', function (e) {
+      e.preventDefault();
+      $.ajax({
+        url: '/delete',
+        method: "POST",
+        data: {listing_id: $(this).val()},
+        success: function (data) {
+          console.log(data);
+        }
+      });
+    });
+  }, 250);
 
   const $searchform = $('.search_form');
   $searchform.submit(function(event) {
