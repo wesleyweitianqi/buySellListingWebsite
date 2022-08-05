@@ -18,10 +18,29 @@
 <body>
   <%- include('partials/_nav') %>
 
-  <div>
+  <!-- <div>
     <img src="https://cka-dash.s3.amazonaws.com/027-0818-AFR968/welcome1.jpg" class="img-fluid" alt="...">
-  </div>
-  
+  </div> -->
+ 
+  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://cka-dash.s3.amazonaws.com/027-0818-AFR968/welcome1.jpg" class="img-fluid" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="https://media4.giphy.com/media/cYHPG7CgfTM9DzW8YL/giphy.gif" class="img-fluid" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div> 
+
   <div class="cartype">
     <img src="https://mediaservice.audi.com/media/live/50720/fly1400x601n6/f83rj7/2022.png?imwidth=291" class="rounded float-start" alt="...">
     <img src="https://mediaservice.audi.com/media/live/50710/fly1400x601n6/genb/2021.png?imwidth=291" class="rounded mx-auto d-block" alt="...">
