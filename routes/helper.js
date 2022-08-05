@@ -1,7 +1,6 @@
 const queryText = (options) =>{
   queryParams = [];
   let queryString = `SELECT * FROM listings `;
-  console.log('#################', Object.keys(options))
   if (Object.keys(options).length > 0) {
     if (options.minimum_price) {
       queryParams.push(`${options.minimum_price}`);

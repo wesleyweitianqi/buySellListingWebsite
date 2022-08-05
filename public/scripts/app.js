@@ -139,6 +139,7 @@ $(document).ready(function () {
       method: 'POST',
       data: input,
       success: function(data) {
+        $('.search_container').empty();
         searchListing(data);
       }
     });
