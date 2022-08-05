@@ -14,11 +14,11 @@ const createListing = function(listingObj) {
       <div class="brand_model">
         <span class="brand">${escape(listingObj.brand.toUpperCase())}</span>
         <span class="model">${escape(listingObj.model)}</span>
-      </div> 
+      </div>
         <span class="description">${escape(listingObj.description)}</span>
       <div class="price_sold">
         <div class="price">$${listingObj.price.toLocaleString('en-US')}</div>
-        <span class= ${listingObj.is_sold === "True" ? "listing_text" : "listing_text_sale"}>${listingObj.is_sold === "True" ? "sold" : "on sale"}</span>
+        <span class= ${listingObj.is_sold === "True" ? "listing_text" : "listing_text_sale"}>${listingObj.is_sold === "True" ? "sold" : "for sale"}</span>
         <button style="background: none; border: none; box-shadow: none;" value="${listingObj.id}" type="button" class="favourite_button btn btn-info"><i class="fa-regular fa-heart"></i></button>
       </div>
     </section>
