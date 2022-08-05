@@ -95,6 +95,7 @@ $(document).ready(function () {
         method: "POST",
         data: {listing_id: $(this).val()},
         success: function (data) {
+          console.log(data)
         },
       });
     });

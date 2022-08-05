@@ -27,6 +27,7 @@ module.exports = (db) => {
         db.query('SELECT * FROM listings WHERE user_id = $1 ORDER BY time_created DESC LIMIT 10;',[req.session.user_id]).then(result => {
           const listings = result.rows;
           res.send(listings);
+          return redirect('/me')
         }).catch(err => console.error(err));
       }).catch(err => console.error(err));
     }
