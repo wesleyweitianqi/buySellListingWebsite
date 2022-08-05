@@ -58,19 +58,19 @@ module.exports = (db) => {
     }
   });
 
-  router.post('/delete', (req, res) => {
-    console.log(req.body);
-    if (req.session.user_id) {
-      db.query('SELECT * FROM listings JOIN favourite_items ON listings.user_id = favourite_items.user_id where favourite_items.user_id = $1', [req.session.user_id]).then(result => {
-        db.query('DELETE FROM listings WHERE id = $1;', [req.body.listing_id]).then(result => {
-          db.query('select * from listings where id = $1', [req.body.listing_id]).then(result => {
-            res.send(result.rows);
-            console.log(result.rows);
-          })
-        }).catch(err => console.error(err));
-      }).catch(err => console.error(err));
-    }
-  });
+  // router.post('/delete', (req, res) => {
+  //   console.log(req.body);
+  //   if (req.session.user_id) {
+  //     db.query('SELECT * FROM listings JOIN favourite_items ON listings.user_id = favourite_items.user_id where favourite_items.user_id = $1', [req.session.user_id]).then(result => {
+  //       db.query('DELETE FROM listings WHERE id = $1;', [req.body.listing_id]).then(result => {
+  //         db.query('select * from listings where id = $1', [req.body.listing_id]).then(result => {
+  //           res.send(result.rows);
+  //           console.log(result.rows);
+  //         })
+  //       }).catch(err => console.error(err));
+  //     }).catch(err => console.error(err));
+  //   }
+  // });
 
   return router;
 };

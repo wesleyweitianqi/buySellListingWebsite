@@ -38,9 +38,9 @@ const createEmailButton = function (userObj) {
 
 const createDeleteButton = function (listingObj) {
   const $deleteButton = `
-  <div class="removeform" id="${listingObj.id}" value="${listingObj.id} style="display:flex; justify-content: center; align-items: center; margin-bottom: 1em; margin-top: 1em;">
-    delete
-  </div>
+  <form action="/delete" method="POST" style="display: flex; justify-content: center; align-items: center; margin-bottom: 1em; margin-top: 1em;">
+    <button type="submit" class="delete_button btn btn-danger" value="${listingObj.id}" style="display: flex;">Remove</button>
+  </form>
   `;
   return $deleteButton;
 }
@@ -110,19 +110,6 @@ $(document).ready(function () {
     },
   });
 
-  // const $remove = $('.remove');
-  // $remove.submit(function(event) {
-  //   event.preventDefault();
-    // $.ajax({
-    //   url: '/api/listings/me',
-    //   method: 'POST',
-    //   success: function(data) {
-    //     console.log('data:',data)
-    //     postListing(data);
-    //   }
-    // })
-  // });
-
   $.ajax({
     url: "/api/listings/favourite",
     method: "GET",
@@ -131,20 +118,20 @@ $(document).ready(function () {
     },
   });
 
-  // setTimeout(() => {
-  //   $(".delete_button").on('click', function (e) {
-  //     e.preventDefault();
-  //     $.ajax({
-  //       url: '/delete',
-  //       method: "POST",
-  //       data: {listing_id: $(this).val()},
-  //       success: function (data) {
-  //         console.log(data);
-  //       }
-  //     });
-  //   });
+  setTimeout(() => {
+    $(".delete_button").on('click', function (e) {
+      e.preventDefault();
+      $.ajax({
+        url: '/delete',
+        method: "POST",
+        data: {listing_id: $(this).val()},
+        success: function (data) {
+          console.log(data);
+        }
+      });
+    });
 
-  // }, 250);
+  }, 250);
 
 
   const $searchform = $('.search_form');
