@@ -97,11 +97,8 @@ module.exports = (db) => {
   router.get('/api/listings/delete', (req, res) => {
     if (req.session.user_id) {
       db.query('SELECT * FROM listings JOIN favourite_items ON listings.user_id = favourite_items.user_id where favourite_items.user_id = $1', [req.session.user_id]).then(result => {
-        db.query('DELETE FROM listings WHERE id = $1;', [req.body.listing_id]).then(result => {
-          console.log('working here')
-          res.send(result.rows);
-          return res.redirect('/api/listings/delete');
-        }).catch(err => console.error(err));
+        db.query('DELETE FROM listings WHERE id = $1;', [req.body.listing_id])
+        return res.redirect('/listings/new');
       }).catch(err => console.error(err));
     }
   });
