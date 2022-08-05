@@ -10,7 +10,6 @@ body {
 
   .nav {
     position: fixed;
-    border-bottom: 1px solid white;
     top:0;
     width:100vw;
     background: silver;
@@ -23,6 +22,7 @@ body {
   .nav-links {
     display: flex;
     justify-content: left;
+    z-index: 100;
   }
   .nav-link {
     color: black;
