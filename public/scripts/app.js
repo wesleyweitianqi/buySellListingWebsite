@@ -10,14 +10,16 @@ const createListing = function(listingObj) {
   const $listing = `
   <form class="listing" id="${listingObj.id}">
     <img class="listing_photo" src="${listingObj.photo_url}">
-    <section>
-      <div class="description">
-        <span class="listing_text">${escape(listingObj.brand.toUpperCase())}</span>
-        <span class="listing_text">${escape(listingObj.model)}</span>
-        <span class="listing_text">${escape(listingObj.description)}</span>
-        <div class="listing_text">$${listingObj.price.toLocaleString('en-US')}</div>
-        <span class= ${listingObj.is_sold ? "listing_text_sale": "listing_text"}>${listingObj.is_sold ? "on sale":"sold"}</span>
-        <button type="button" class="favourite_button btn btn-info" style="background: none; border: none; box-shadow: none;" value="${listingObj.id}"><i class="fa-regular fa-heart"></i></button>
+    <section class= "list_details">
+      <div class="brand_model">
+        <span class="brand">${escape(listingObj.brand.toUpperCase())}</span>
+        <span class="model">${escape(listingObj.model)}</span>
+      </div> 
+        <span class="description">${escape(listingObj.description)}</span>
+      <div class="price_sold">
+        <div class="price">$${listingObj.price.toLocaleString('en-US')}</div>
+        <span class= ${listingObj.is_sold === "True" ? "listing_text" : "listing_text_sale"}>${listingObj.is_sold === "True" ? "sold" : "on sale"}</span>
+        <button style="background: none; border: none; box-shadow: none;" value="${listingObj.id}" type="button" class="favourite_button btn btn-info"><i class="fa-regular fa-heart"></i></button>
       </div>
     </section>
   </form>
