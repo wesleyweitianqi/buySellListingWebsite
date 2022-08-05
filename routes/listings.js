@@ -52,6 +52,7 @@ module.exports = (db) => {
     console.log('+++++++++++++++', queryString, queryParams);
     if (req.session.user_id) {
       db.query(queryString, queryParams).then(result => {
+        console.log(result.rows)
         return res.send(result.rows);
       })
     }

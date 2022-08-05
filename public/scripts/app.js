@@ -26,7 +26,7 @@ const createListing = function(listingObj) {
 };
 
 const emailButton = `
-<a href="mailto:<%= email %>>"
+<a href="mailto:<%= email %>">
   <button type="submit" class="email_button btn btn-secondary" style="width: 40%; display: flex; align-self: center; justify-content: center;">Contact Seller</button>
 </a>
 `;
@@ -113,6 +113,7 @@ $(document).ready(function () {
       method: 'POST',
       data: input,
       success: function(data) {
+        console.log(data);
         searchListing(data);
       }
     });

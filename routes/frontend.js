@@ -106,11 +106,11 @@ module.exports = (db) => {
     }
   });
 
-  router.get('/search/api', (req,res) => {
-    db.query(queryText(req.body),queryText(req.body)).then(result => {
-      return res.send(result.rows[0]);
-    })
-  })
+  // router.get('/search/api', (req,res) => {
+  //   db.query(queryText(req.body),queryText(req.body)).then(result => {
+  //     return res.send(result.rows[0]);
+  //   })
+  // })
 
   return router;
 
