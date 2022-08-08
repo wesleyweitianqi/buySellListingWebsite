@@ -21,7 +21,7 @@
   <%- include('partials/_nav') %>
   <h1>Make a Listing for your Vehicle:</h1>
   <div class="post_form">
-    <form id="post_form" method="POST" action="/listings/new">
+    <form id="post_form">
       <label class="brand_text" for="Brand">Car Brand:</label>
       <input
         type="text"
@@ -60,18 +60,12 @@
       <button class="button btn btn-primary" type="submit">Submit</button>
     </form>
   </div>
-  <section class="myListing">
+  <section class="myListing_container">
     <h1>My Listings:</h1>
-    <div class="post-container">
-      <form class="postformdelete"></form>
-    </div>
+
   </section>
   <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-<script>
-  $( ".removeform" ).click(function() {
-    $( this ).slideUp();
-  });
-</script>
+
 </body>
 </html>

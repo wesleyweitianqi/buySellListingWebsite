@@ -24,10 +24,10 @@ module.exports = (db) => {
   router.get('/me', (req,res) => {
     if (req.session.user_id) {
       db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
-        db.query('SELECT * FROM listings WHERE user_id = $1 ORDER BY time_created DESC LIMIT 10;',[req.session.user_id]).then(result => {
+        db.query('SELECT * FROM listings join users on listings.user_id = users.id WHERE user_id = $1 ORDER BY time_created DESC;',[req.session.user_id]).then(result => {
           const listings = result.rows;
           res.send(listings);
-          return res.redirect('/me')
+
         }).catch(err => console.error(err));
       }).catch(err => console.error(err));
     }
@@ -43,14 +43,12 @@ module.exports = (db) => {
   });
 
   router.post('/search', (req, res) => {
-    console.log('+++++++++++++++', req.body);
     const queryObj = queryText(req.body);
     if (!queryObj || queryObj.length < 2) {
       return res.send('wrong');
     }
     const queryString = queryObj[0];
     const queryParams = queryObj[1];
-    console.log('+++++++++++++++', queryString, queryParams);
     if (req.session.user_id) {
       db.query(queryString, queryParams).then(result => {
         return res.send(result.rows);
@@ -58,19 +56,6 @@ module.exports = (db) => {
     }
   });
 
-  // router.post('/delete', (req, res) => {
-  //   console.log(req.body);
-  //   if (req.session.user_id) {
-  //     db.query('SELECT * FROM listings JOIN favourite_items ON listings.user_id = favourite_items.user_id where favourite_items.user_id = $1', [req.session.user_id]).then(result => {
-  //       db.query('DELETE FROM listings WHERE id = $1;', [req.body.listing_id]).then(result => {
-  //         db.query('select * from listings where id = $1', [req.body.listing_id]).then(result => {
-  //           res.send(result.rows);
-  //           console.log(result.rows);
-  //         })
-  //       }).catch(err => console.error(err));
-  //     }).catch(err => console.error(err));
-  //   }
-  // });
 
   return router;
 };
