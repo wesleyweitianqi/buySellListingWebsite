@@ -83,8 +83,8 @@ $(document).ready(function () {
       data: input,
       success: function (data) {
         console.log(data)
-        $('.post_container').empty();
-        $(".post_container").append(postListing(data))
+        $('.myListing_container').empty();
+        $(".myListing_container").append(postListing(data))
 
       }
     });
@@ -102,21 +102,22 @@ $(document).ready(function () {
       method: 'POST',
       data: input,
       success: function(data) {
-        console.log('********************',data)
         $('.search_container').empty();
         searchListing(data);
       }
     });
   });
 
-  const $dataId = $('%data-id');
-  const $listing_container = $('.mylisting')
+  const $dataId = $('data-id');
+  const $listing_container = $('.mylisting_container')
   $listing_container.delegate('.remove', 'click', function() {
     const $form = $(this).closest('form');
+    console.log('*********************')
     $.ajax({
       type: 'POST',
       url: 'listings/new'+ $(this).attr('data-id'),
       success: function() {
+        console.log($form)
         $form.remove();
       }
     })
