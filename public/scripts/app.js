@@ -18,14 +18,13 @@ const createListing = function(data) {
         <a class="email_button"  href="mailto:${data.email}">
           <button type="submit" class="btn btn-secondary">Contact Seller</button>
         </a>
-        <button data-id=${data.id} class="remove">Remove</button>
+        <button type="button" data-id=${data.id} class="remove ${data.id}" >Remove</button>
       </div>
     </section>
   </form>
   `;
   return $listing;
 };
-
 
 const appendListing = function (data) {
   for (let listing of data) {
@@ -51,8 +50,6 @@ const favouriteListing = function(data) {
   }
 };
 
-
-
 $(document).ready(function () {
 
   //show all listings to public
@@ -68,6 +65,7 @@ $(document).ready(function () {
     url:'/api/listings/me',
     method:'GET',
     success: function(data) {
+      console.log(data);
       postListing(data);
     }
   })
@@ -96,7 +94,6 @@ $(document).ready(function () {
   $searchform.submit(function(event) {
     event.preventDefault();
     const input = $(this).serializeArray()//.map(function(x){formdata[x.name] = x.value;});
-    // console.log('search:' , input)
     $.ajax({
       url: '/api/listings/search',
       method: 'POST',
@@ -109,19 +106,26 @@ $(document).ready(function () {
   });
 
   const $dataId = $('data-id');
-  const $listing_container = $('.mylisting_container')
-  $listing_container.delegate('.remove', 'click', function() {
-    const $form = $(this).closest('form');
-    console.log('*********************')
+  const $listing_container = $('.myListing_container')
+  console.log($listing_container);
+  $listing_container.on('click', '.remove', function(event) {
+    event.preventDefault();
+    const listing_id = $(this).attr('data-id');
     $.ajax({
       type: 'POST',
-      url: 'listings/new'+ $(this).attr('data-id'),
+      url: `/listings/remove/${listing_id}`,
+      data: {listing_id },
       success: function() {
-        console.log($form)
-        $form.remove();
+        $listing_container.empty();
+        $.ajax({
+          url:'/api/listings/me',
+          method:'GET',
+          success: function(data) {
+            postListing(data);
+          }
+        })
       }
     })
-
   })
 
 });

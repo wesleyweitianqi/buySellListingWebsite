@@ -23,13 +23,14 @@ module.exports = (db) => {
   //read all from user - get
   router.get('/me', (req,res) => {
     if (req.session.user_id) {
-      db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
-        db.query('SELECT * FROM listings join users on listings.user_id = users.id WHERE user_id = $1 ORDER BY time_created DESC;',[req.session.user_id]).then(result => {
+      // db.query('SELECT * FROM users WHERE id = $1;', [req.session.user_id]).then(result => {
+        db.query('SELECT * FROM listings WHERE user_id = $1 ORDER BY time_created DESC;',[req.session.user_id]).then(result => {
           const listings = result.rows;
+          console.log(listings)
           res.send(listings);
 
         }).catch(err => console.error(err));
-      }).catch(err => console.error(err));
+      // }).catch(err => console.error(err));
     }
   });
 

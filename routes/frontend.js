@@ -69,11 +69,12 @@ module.exports = (db) => {
       .catch(err =>console.error(err));
     });
 
-    router.post('/listings/new/:listing_id', (req, res) => {
+    router.post('/listings/remove/:listing_id', (req, res) => {
+      console.log("delete:", req.body);
       if (req.session.user_id) {
-        db.query('SELECT * FROM listings JOIN favourite_items ON listings.user_id = favourite_items.user_id where favourite_items.user_id = $1', [req.session.user_id]).then(result => {
-          db.query('DELETE FROM listings WHERE id = $1;', [req.params.id]).catch(err => console.error(err));
-        }).catch(err => console.error(err));
+        db.query('DELETE FROM listings WHERE id = $1;', [req.params.listing_id])
+        .then(result => res.status(200).send(`successfully deleted ${req.params.listing_id}`))
+        .catch(err => res.status(500).send(err));
       }
     });
 
