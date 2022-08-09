@@ -15,10 +15,8 @@ const createListing = function(data) {
         <div class="price">$${data.price}</div>
         <span class= ${data.is_sold === "True" ? "listing_text" : "listing_text_sale"}>${data.is_sold === "True" ? "sold" : "for sale"}</span>
         <button value="${data.id}" ><i class="fa-regular fa-heart"></i></button>
-        <a class="email_button"  href="mailto:${data.email}">
-          <button type="submit" class="btn btn-secondary">Contact Seller</button>
-        </a>
         <button type="button" data-id=${data.id} class="remove ${data.id}" >Remove</button>
+        <a class="email_button"  href="mailto:${data.email}">Contact Seller</a>
       </div>
     </section>
   </form>
