@@ -13,7 +13,9 @@ const bcrypt = require('bcryptjs')
 module.exports = (db) => {
   //route to handle register data
   router.post('/register', (req, res) => {
+    console.log(req.body)
     const {name, email, password} = req.body;
+    console.log(name, email, password)
     const text ='SELECT * FROM users WHERE email = $1';
     const params = [email];
     db.query(text, params).then(result => {

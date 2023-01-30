@@ -14,7 +14,7 @@ const createListing = function(data) {
       <div class="price_sold">
         <div class="price">$${data.price}</div>
         <span class= ${data.is_sold === "True" ? "listing_text" : "listing_text_sale"}>${data.is_sold === "True" ? "sold" : "for sale"}</span>
-        <button value="${data.id}" ><i class="fa-regular fa-heart"></i></button>
+        <i class="fa-regular fa-heart"></i>
         <button type="button" data-id=${data.id} class="remove ${data.id}" >Remove</button>
         <a class="email_button"  href="mailto:${data.email}">Contact Seller</a>
       </div>
@@ -55,6 +55,7 @@ $(document).ready(function () {
     url: "/api/listings",
     method: "GET",
     success: function (data) {
+      // console.log(data)
       appendListing(data);
     },
   });
@@ -63,7 +64,7 @@ $(document).ready(function () {
     url:'/api/listings/me',
     method:'GET',
     success: function(data) {
-      console.log(data);
+      // console.log(data);
       postListing(data);
     }
   })
@@ -99,17 +100,18 @@ $(document).ready(function () {
       success: function(data) {
         $('.search_container').empty();
         searchListing(data);
+        console.log(input)
       }
     });
   });
 
   const $dataId = $('data-id');
   const $listing_container = $('.myListing_container')
-  console.log($listing_container);
   $listing_container.on('click', '.remove', function(event) {
     event.preventDefault();
     const listing_id = $(this).attr('data-id');
-    $.ajax({
+    console.log(listing_id)
+      $.ajax({
       type: 'POST',
       url: `/listings/remove/${listing_id}`,
       data: {listing_id },
@@ -125,5 +127,17 @@ $(document).ready(function () {
       }
     })
   })
+
+  const $list_container = $('.listing_container')
+  $list_container.on('click',"i", (e) => {
+    e.preventDefault();
+    $(e.target).css("color", "red")
+  })
+
+    // e.target.parent('.listing').remove()
+    // const selected = $(e.target).is('form') ? $(e.target)[0] : $(e.target).parent(".listing")[0]
+    // $(selected).remove()
+    // console.log(selected)
+
 
 });
